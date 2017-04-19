@@ -43,12 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DES.cs" />
     <Compile Include="frmWelcom.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmWelcom.Designer.cs">
       <DependentUpon>frmWelcom.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniFile.cs" />
+    <Compile Include="Other.cs" />
+    <Compile Include="p.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmWelcom.resx">
