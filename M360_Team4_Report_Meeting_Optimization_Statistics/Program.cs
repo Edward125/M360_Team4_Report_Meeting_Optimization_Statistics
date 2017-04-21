@@ -17,7 +17,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (File.Exists(p.iniFilePath)) //不存在，第一次運行
+            if (!File.Exists(p.iniFilePath)) //不存在，第一次運行
             {
                 Application.Run(new frmWelcom());
             }
@@ -30,11 +30,6 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 else
                     Application.Run(new frmMain());
             }
-
-
-
-
-           
         }
     }
 }
