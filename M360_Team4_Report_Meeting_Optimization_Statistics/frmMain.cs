@@ -62,7 +62,6 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         }
 
-
         #endregion
         
 
@@ -80,8 +79,21 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             Y = this.Height;    
             setTag(this);
             Form1_Resize(new object(), new EventArgs());//x,y可在实例化时赋值,最后这句是新加的，在MDI时有用
+
+          //
+            if (!p.checkDB(p.dbFile))
+            {
+                Application.Exit();
+            }
+            p.createAllTable();
+           
         }
 
  
+
+
+
+
+
     }
 }

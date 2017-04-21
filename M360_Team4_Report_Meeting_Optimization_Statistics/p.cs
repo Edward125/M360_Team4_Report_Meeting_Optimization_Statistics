@@ -2,62 +2,350 @@
 using System.Collections.Generic;
 using System.Text;
 using Edward;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.IO;
+using System.Data.SQLite;
 
 namespace M360_Team4_Report_Meeting_Optimization_Statistics
 {
-   public  class p
-   {
-       #region 参数定义
+    public class p
+    {
+        #region 参数定义
 
-       public static string appFolder = Application.StartupPath + @"\ReportMeetingStatistics";
-       public static string iniFilePath = appFolder + @"\SysConfig.ini";
-       public static string myDepartment = string.Empty;
-
-
-
-       public  enum IniSection
-       {
-           SysConfig
-       }
+        public static string appFolder = Application.StartupPath + @"\ReportMeetingStatistics";
+        public static string iniFilePath = appFolder + @"\SysConfig.ini";
+        public static string myDepartment = string.Empty;
+        public static string dbFile = appFolder + @"\Team4.sqlite";
+        public static string dbConnectionString = "Data Source=" + @dbFile;
 
 
-  
-
-
-       #endregion
+        public static List<string> departmentlist = new List<string>();
 
 
 
-       public static  void checkFolder()
-       {
-           if (!Directory.Exists(appFolder))
-           {
-               Directory.CreateDirectory(appFolder);
-           }
-
-       }
-
-
-       public static  void createIniFile(string inifilepath)
-       {
-           IniFile.CreateIniFile(inifilepath);
-           IniFile.IniWriteValue(IniSection.SysConfig.ToString(), "MyDepartment", myDepartment, inifilepath);
-
-       }
-
-
-      public static  void readIniValue(string inifilepath)
-       {
-           myDepartment = IniFile.IniReadValue(IniSection.SysConfig.ToString(), "MyDepartment", inifilepath);
-       }
+        public enum IniSection
+        {
+            SysConfig
+        }
 
 
 
 
 
+        public enum DepartmentList
+        {
+            d_1KC900,
+            d_1KCD00,
+            d_KD0B00,
+            d_KD1100,
+            d_KD1200,
+            d_KD1300,
+            d_KD1500,
+            d_KD1600,
+            d_KD1700,
+            d_KD1C00,
+            d_KD1E00,
+            d_KD1M00,
+            d_KD1P00,
+            d_KD1Q00,
+            d_KD1S00,
+            d_KD1T00,
+            d_KD1W00
+        }
 
-   }
+
+
+
+        #endregion
+
+
+        /// <summary>
+        /// check folder
+        /// </summary>
+        public static void checkFolder()
+        {
+            if (!Directory.Exists(appFolder))
+            {
+                Directory.CreateDirectory(appFolder);
+            }
+
+        }
+
+        /// <summary>
+        /// create ini file
+        /// </summary>
+        /// <param name="inifilepath">ini file path </param>
+        public static void createIniFile(string inifilepath)
+        {
+            IniFile.CreateIniFile(inifilepath);
+            IniFile.IniWriteValue(IniSection.SysConfig.ToString(), "MyDepartment", myDepartment, inifilepath);
+
+        }
+
+        /// <summary>
+        /// read ini file value 
+        /// </summary>
+        /// <param name="inifilepath">ini file path</param>
+        public static void readIniValue(string inifilepath)
+        {
+            myDepartment = IniFile.IniReadValue(IniSection.SysConfig.ToString(), "MyDepartment", inifilepath);
+        }
+
+
+        /// <summary>
+        /// check db file ,if not exits,create it
+        /// </summary>
+        /// <param name="_dbfile">db file path</param>
+        /// <returns></returns>
+        public static bool checkDB(string _dbfile)
+        {
+            if (!File.Exists(_dbfile))
+            {
+                try
+                {
+                    SQLiteConnection.CreateFile(_dbfile);
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Create DB Fail." + ex.Message, "Create DB Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+
+            }
+            return true;
+        }
+
+
+        // string sql = "create table highscores (name varchar(20), score int)";
+        /// <summary>
+        /// create table 
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <returns>create ok,return true;create ng,return false</returns>
+        public static bool createTable(string sql)
+        {
+            SQLiteConnection conn = new SQLiteConnection(dbConnectionString);
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Connect to database fail," + ex.Message);
+                return false;
+            }
+
+            try
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, conn);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Create TABLE fail," + ex.Message);
+                return false;
+                    
+            }
+            
+            return true;
+        }
+
+        public static void createAllTable()
+        {
+            string sql = @"CREATE TABLE IF NOT EXISTS d_alldepstatus(
+depcode varchar(11) PRIMARY KEY NOT NULL,
+totalworkingtime decimal(10,2) NULL,
+meetingworktime decimal(10,2)  NULL,
+reportingworkingtime decimal(10,2) NULL,
+meetingtips int(11) ,
+reporttips int(11) ,
+meetingtipssavetime decimal(10,2) NULL,
+reporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+
+
+//            1KC900
+//1KCD00
+//KD0B00
+//KD1100
+//KD1200
+//KD1300
+//KD1500
+//KD1600
+//KD1700
+//KD1C00
+//KD1E00
+//KD1M00
+//KD1P00
+//KD1Q00
+
+
+
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_1kc900(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_1kcd00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd0b00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1100(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1200(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1300(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1500(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1600(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1700(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+
+
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1c00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1e00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1m00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1p00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1s00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1t00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+
+
+            sql = @"CREATE TABLE IF NOT EXISTS d_kd1w00(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+            p.createTable(sql);
+        }
+
+
+
+
+
+
+
+
+    }
 }
