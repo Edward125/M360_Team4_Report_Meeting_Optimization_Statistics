@@ -86,10 +86,51 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 Application.Exit();
             }
             p.createAllTable();
-           
+            //
+            loadMeetingReportStatus(lstMeetingReportStatus);
+
         }
 
- 
+
+
+
+
+        #region loadMeetingReportSummaryStatus
+
+
+        private void loadMeetingReportStatus(ListView listview)
+        {
+            listview.MultiSelect = false;
+            listview.BeginUpdate();//数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度 
+
+            listview.Columns.Add("Dep.Code", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Total Time", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Time", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Time", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Total TIPs", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Total TIPs", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Total Save Time", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Total Save Time", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Optimize PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Optimize PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+
+
+            ListViewItem li = listview.Items.Add("KD120");
+
+            li.SubItems.Add("2000");
+            li.SubItems.Add("100");
+           
+            listview.EndUpdate();//结束数据处理，UI界面一次性绘制。 
+
+
+        }
+
+
+        #endregion
 
 
 

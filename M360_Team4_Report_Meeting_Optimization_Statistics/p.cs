@@ -144,11 +144,13 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             {
                 SQLiteCommand command = new SQLiteCommand(sql, conn);
                 command.ExecuteNonQuery();
+                conn.Close();
             }
             catch (Exception ex)
             {
 
                 MessageBox.Show("Create TABLE fail," + ex.Message);
+                conn.Close();
                 return false;
                     
             }
@@ -156,6 +158,10 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             return true;
         }
 
+
+        /// <summary>
+        /// create all defaul tables
+        /// </summary>
         public static void createAllTable()
         {
             string sql = @"CREATE TABLE IF NOT EXISTS d_alldepstatus(
@@ -341,7 +347,32 @@ dailyreporttipssavetime decimal(10,2) NULL
         }
 
 
+        /// <summary>
+        /// update data to sqlite
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <returns>success,return true;fail,return false</returns>
+        public static bool updateData2DB(string sql)
+        {
+            SQLiteConnection conn = new SQLiteConnection(dbConnectionString);
 
+            try
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+                //cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                MessageBox.Show("Execute sql: " + sql + " fail," + ex.Message);
+                return false;
+            }
+            return true;
+        }
 
 
 
