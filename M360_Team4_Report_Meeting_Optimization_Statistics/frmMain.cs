@@ -93,12 +93,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             }
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
+
             string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString ("yyyy-MM-dd") + "','3','200','3','300')";
             
                 
             p.updateData2DB(sql);
 
             sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
+
+            p.updateData2DB(sql);
+            sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','20','2','50')";
             p.updateData2DB(sql);
             //
             //loadMeetingReportStatus(lstMeetingReportStatus);
@@ -388,27 +392,20 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                 if (re.HasRows)
                 {
+                    Int64 _dailymeetingtips = 0;
+                    Int64 _dailyreporttips = 0;
+                    decimal _dailymeetingtipssavetime = 0;
+                    decimal _dailyreporttipssavetime = 0;
                     while (re.Read())
                     {
-                        Int64 _dailymeetingtips = 0;
-                        Int64 _dailyreporttips = 0;
-                        decimal _dailymeetingtipssavetime = 0;
-                        decimal _dailyreporttipssavetime = 0;
+                       
                         try
                         {
                             _dailymeetingtips = _dailymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
                             _dailyreporttips = _dailyreporttips + Convert.ToInt64(re["dailyreporttips"]);
                             _dailymeetingtipssavetime = _dailymeetingtipssavetime + Convert.ToDecimal(re["dailymeetingtipssavetime"]);
                             _dailyreporttipssavetime = _dailyreporttipssavetime + Convert.ToDecimal(re["dailyreporttipssavetime"]);
-                            lt.SubItems.Add(_dailymeetingtips.ToString());
-                            lt.SubItems.Add(_dailyreporttips.ToString());
-                            lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
-                            lt.SubItems.Add(_dailyreporttipssavetime.ToString());
-                            lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
-                            lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
-                            lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
-                            lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
-
+                           
                         }
                         catch (Exception)
                         {
@@ -417,6 +414,15 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         }
                         
                     }
+
+                    lt.SubItems.Add(_dailymeetingtips.ToString());
+                    lt.SubItems.Add(_dailyreporttips.ToString());
+                    lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
+                    lt.SubItems.Add(_dailyreporttipssavetime.ToString());
+                    lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
+                    lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
+                    lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
+                    lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
                 }
 
 
