@@ -36,9 +36,13 @@
             this.tabMeeting = new System.Windows.Forms.TabPage();
             this.tabReport = new System.Windows.Forms.TabPage();
             this.lstMeetingReportStatus = new System.Windows.Forms.ListView();
+            this.lstMeeting = new System.Windows.Forms.ListView();
+            this.lstReport = new System.Windows.Forms.ListView();
             this.tabControl1.SuspendLayout();
             this.tabMeetingReport.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tabMeeting.SuspendLayout();
+            this.tabReport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -51,6 +55,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1373, 482);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
             // tabMeetingReport
             // 
@@ -89,20 +94,22 @@
             // 
             // tabMeeting
             // 
+            this.tabMeeting.Controls.Add(this.lstMeeting);
             this.tabMeeting.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMeeting.Location = new System.Drawing.Point(4, 22);
             this.tabMeeting.Name = "tabMeeting";
-            this.tabMeeting.Size = new System.Drawing.Size(1012, 410);
+            this.tabMeeting.Size = new System.Drawing.Size(1365, 456);
             this.tabMeeting.TabIndex = 1;
             this.tabMeeting.Text = "Meeting Status";
             this.tabMeeting.UseVisualStyleBackColor = true;
             // 
             // tabReport
             // 
+            this.tabReport.Controls.Add(this.lstReport);
             this.tabReport.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabReport.Location = new System.Drawing.Point(4, 22);
             this.tabReport.Name = "tabReport";
-            this.tabReport.Size = new System.Drawing.Size(1012, 410);
+            this.tabReport.Size = new System.Drawing.Size(1365, 456);
             this.tabReport.TabIndex = 2;
             this.tabReport.Text = "Report Status";
             this.tabReport.UseVisualStyleBackColor = true;
@@ -115,6 +122,24 @@
             this.lstMeetingReportStatus.TabIndex = 0;
             this.lstMeetingReportStatus.UseCompatibleStateImageBehavior = false;
             this.lstMeetingReportStatus.View = System.Windows.Forms.View.Details;
+            // 
+            // lstMeeting
+            // 
+            this.lstMeeting.Location = new System.Drawing.Point(6, 38);
+            this.lstMeeting.Name = "lstMeeting";
+            this.lstMeeting.Size = new System.Drawing.Size(1353, 411);
+            this.lstMeeting.TabIndex = 1;
+            this.lstMeeting.UseCompatibleStateImageBehavior = false;
+            this.lstMeeting.View = System.Windows.Forms.View.Details;
+            // 
+            // lstReport
+            // 
+            this.lstReport.Location = new System.Drawing.Point(3, 32);
+            this.lstReport.Name = "lstReport";
+            this.lstReport.Size = new System.Drawing.Size(1359, 421);
+            this.lstReport.TabIndex = 0;
+            this.lstReport.UseCompatibleStateImageBehavior = false;
+            this.lstReport.View = System.Windows.Forms.View.Details;
             // 
             // frmMain
             // 
@@ -130,6 +155,8 @@
             this.tabMeetingReport.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabMeeting.ResumeLayout(false);
+            this.tabReport.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,5 +172,7 @@
         private System.Windows.Forms.ListView lstMeetingReportStatus;
         private System.Windows.Forms.TabPage tabMeeting;
         private System.Windows.Forms.TabPage tabReport;
+        private System.Windows.Forms.ListView lstMeeting;
+        private System.Windows.Forms.ListView lstReport;
     }
 }

@@ -376,6 +376,38 @@ dailyreporttipssavetime decimal(10,2) NULL
 
 
 
+        public static void writeDefaultData()
+        {
+
+            writeDepDefaultData(DepartmentList.d_1KC900);
+            writeDepDefaultData(DepartmentList.d_1KCD00);
+            writeDepDefaultData(DepartmentList.d_KD0B00);
+            writeDepDefaultData(DepartmentList.d_KD1100);
+            writeDepDefaultData(DepartmentList.d_KD1200);
+            writeDepDefaultData(DepartmentList.d_KD1300);
+            writeDepDefaultData(DepartmentList.d_KD1500);
+            writeDepDefaultData(DepartmentList.d_KD1600);
+            writeDepDefaultData(DepartmentList.d_KD1700);
+            writeDepDefaultData(DepartmentList.d_KD1C00);
+            writeDepDefaultData(DepartmentList.d_KD1E00);
+            writeDepDefaultData(DepartmentList.d_KD1M00);
+            writeDepDefaultData(DepartmentList.d_KD1P00);
+            writeDepDefaultData(DepartmentList.d_KD1Q00);
+            writeDepDefaultData(DepartmentList.d_KD1S00);
+            writeDepDefaultData(DepartmentList.d_KD1T00);
+            writeDepDefaultData(DepartmentList.d_KD1W00);
+
+        }
+
+
+
+        private static  void writeDepDefaultData(DepartmentList dep)
+        {
+            string sql = "REPLACE INTO d_alldepstatus (depcode) VALUES ('" + dep.ToString().Replace("d_", "") + "')";
+            updateData2DB(sql);
+        }
+
+
 
         /// <summary>
         /// calc percentage 
