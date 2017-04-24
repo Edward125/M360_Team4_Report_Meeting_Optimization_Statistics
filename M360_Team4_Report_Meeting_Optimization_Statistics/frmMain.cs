@@ -93,12 +93,19 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             }
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
-            //p.updateData2DB(sql);
+            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString ("yyyy-MM-dd") + "','3','200','3','300')";
+            
+                
+            p.updateData2DB(sql);
+
+            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
+            p.updateData2DB(sql);
             //
             //loadMeetingReportStatus(lstMeetingReportStatus);
             setMeeringReport(lstMeetingReportStatus);
             setMeeting(lstMeeting);
             setReport(lstReport);
+            loadMeetingReportStatus(lstMeetingReportStatus);
 
         }
 
@@ -114,12 +121,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
-            listview.Columns.Add("Dep.Code", 80, HorizontalAlignment.Center);
-            listview.Columns.Add("Total Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Meeting Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Report Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Meeting PCT", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Report PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("Total Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting PCT", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Report PCT", 80, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Total TIPs", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Report Total TIPs", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Total Save Time", 120, HorizontalAlignment.Center);
@@ -161,6 +168,11 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         lt.SubItems.Add(_reportworkingtime.ToString());
                         lt.SubItems.Add(p.CalcPCT(_meetingworkingtime, _totalworkingtime));
                         lt.SubItems.Add(p.CalcPCT(_reportworkingtime, _totalworkingtime));
+
+                        p.DepartmentList dep = (p.DepartmentList )Enum.Parse (typeof (p.DepartmentList ),"d_" + _depcode );
+                        loadDepMeetingReportHistory(dep, lt, _totalworkingtime, _meetingworkingtime, _reportworkingtime);
+
+
                     }
                     catch (Exception)
                     {
@@ -192,12 +204,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             //listview.BeginUpdate();//数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度 
             listview.AutoArrange = true;
             listview.GridLines = true;
-            listview.Columns.Add("Dep.Code", 80, HorizontalAlignment.Center);
-            listview.Columns.Add("Total Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Meeting Time", 120, HorizontalAlignment.Center);
-            //listview.Columns.Add("Report Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Meeting PCT", 120, HorizontalAlignment.Center);
-            // listview.Columns.Add("Report PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("Total Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting Time", 80, HorizontalAlignment.Center);
+            //listview.Columns.Add("Report Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Meeting PCT", 80, HorizontalAlignment.Center);
+            //listview.Columns.Add("Report PCT", 80, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Total TIPs", 120, HorizontalAlignment.Center);
             // listview.Columns.Add("Report Total TIPs", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Total Save Time", 120, HorizontalAlignment.Center);
@@ -251,8 +263,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                 }
             }
-
             conn.Close();
+
             listview.EndUpdate();//结束数据处理，UI界面一次性绘制。 
         }
 
@@ -267,12 +279,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
-            listview.Columns.Add("Dep.Code", 80, HorizontalAlignment.Center);
-            listview.Columns.Add("Total Time", 120, HorizontalAlignment.Center);
-            //listview.Columns.Add("Meeting Time", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Report Time", 120, HorizontalAlignment.Center);
-            //listview.Columns.Add("Meeting PCT", 120, HorizontalAlignment.Center);
-            listview.Columns.Add("Report PCT", 120, HorizontalAlignment.Center);
+            listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("Total Time", 80, HorizontalAlignment.Center);
+            //listview.Columns.Add("Meeting Time", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Report Time", 80, HorizontalAlignment.Center);
+            //listview.Columns.Add("Meeting PCT", 80, HorizontalAlignment.Center);
+            listview.Columns.Add("Report PCT", 80, HorizontalAlignment.Center);
             //listview.Columns.Add("Meeting Total TIPs", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Report Total TIPs", 120, HorizontalAlignment.Center);
             //listview.Columns.Add("Meeting Total Save Time", 120, HorizontalAlignment.Center);
@@ -355,7 +367,68 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
 
-       
+        private void loadMeetingReportHistoryData()
+        {
+        }
+
+
+        private void loadDepMeetingReportHistory(p.DepartmentList dep,ListViewItem lt,decimal _totaltime,decimal _totalmeetingtime,decimal _totalreporttime)
+        {
+            SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
+            conn.Open();
+            string sql = "SELECT COUNT(*) FROM " + dep.ToString();
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            object o = cmd.ExecuteScalar();
+            if ( (Convert.ToInt64(o)) > 0)
+            {
+                sql = "SELECT * FROM " + dep.ToString();
+                cmd = new SQLiteCommand(sql, conn);
+                SQLiteDataReader re = cmd.ExecuteReader ();
+
+
+                if (re.HasRows)
+                {
+                    while (re.Read())
+                    {
+                        Int64 _dailymeetingtips = 0;
+                        Int64 _dailyreporttips = 0;
+                        decimal _dailymeetingtipssavetime = 0;
+                        decimal _dailyreporttipssavetime = 0;
+                        try
+                        {
+                            _dailymeetingtips = _dailymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
+                            _dailyreporttips = _dailyreporttips + Convert.ToInt64(re["dailyreporttips"]);
+                            _dailymeetingtipssavetime = _dailymeetingtipssavetime + Convert.ToDecimal(re["dailymeetingtipssavetime"]);
+                            _dailyreporttipssavetime = _dailyreporttipssavetime + Convert.ToDecimal(re["dailyreporttipssavetime"]);
+                            lt.SubItems.Add(_dailymeetingtips.ToString());
+                            lt.SubItems.Add(_dailyreporttips.ToString());
+                            lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
+                            lt.SubItems.Add(_dailyreporttipssavetime.ToString());
+                            lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
+                            lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
+                            lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
+                            lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        
+                    }
+                }
+
+
+                
+
+
+
+            }
+            
+
+
+        }
 
 
     }

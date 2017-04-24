@@ -399,15 +399,11 @@ dailyreporttipssavetime decimal(10,2) NULL
 
         }
 
-
-
         private static  void writeDepDefaultData(DepartmentList dep)
         {
             string sql = "REPLACE INTO d_alldepstatus (depcode) VALUES ('" + dep.ToString().Replace("d_", "") + "')";
             updateData2DB(sql);
         }
-
-
 
         /// <summary>
         /// calc percentage 
@@ -421,6 +417,11 @@ dailyreporttipssavetime decimal(10,2) NULL
             return string.Format("{0:0.00%}", member / denominator);
 
         }
+
+
+
+
+
 
 
     }
