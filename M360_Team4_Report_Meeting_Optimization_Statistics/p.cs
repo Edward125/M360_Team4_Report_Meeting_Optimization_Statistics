@@ -167,8 +167,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             string sql = @"CREATE TABLE IF NOT EXISTS d_alldepstatus(
 depcode varchar(11) PRIMARY KEY NOT NULL,
 totalworkingtime decimal(10,2) NULL,
-meetingworktime decimal(10,2)  NULL,
-reportingworkingtime decimal(10,2) NULL,
+meetingworkingtime decimal(10,2)  NULL,
+reportworkingtime decimal(10,2) NULL,
 meetingtips int(11) ,
 reporttips int(11) ,
 meetingtipssavetime decimal(10,2) NULL,
@@ -376,6 +376,19 @@ dailyreporttipssavetime decimal(10,2) NULL
 
 
 
+
+        /// <summary>
+        /// calc percentage 
+        /// </summary>
+        /// <param name="member">分子</param>
+        /// <param name="denominator">分母</param>
+        /// <returns></returns>
+        public static string CalcPCT(decimal member, decimal denominator)
+        {
+
+            return string.Format("{0:0.00%}", member / denominator);
+
+        }
 
 
     }
