@@ -38,6 +38,7 @@
             this.lstMeetingReportStatus = new System.Windows.Forms.ListView();
             this.lstMeeting = new System.Windows.Forms.ListView();
             this.lstReport = new System.Windows.Forms.ListView();
+            this.lstMeetingDetail = new System.Windows.Forms.ListView();
             this.tabControl1.SuspendLayout();
             this.tabMeetingReport.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -94,6 +95,7 @@
             // 
             // tabMeeting
             // 
+            this.tabMeeting.Controls.Add(this.lstMeetingDetail);
             this.tabMeeting.Controls.Add(this.lstMeeting);
             this.tabMeeting.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMeeting.Location = new System.Drawing.Point(4, 22);
@@ -127,7 +129,7 @@
             // 
             this.lstMeeting.Location = new System.Drawing.Point(6, 38);
             this.lstMeeting.Name = "lstMeeting";
-            this.lstMeeting.Size = new System.Drawing.Size(1353, 411);
+            this.lstMeeting.Size = new System.Drawing.Size(806, 411);
             this.lstMeeting.TabIndex = 1;
             this.lstMeeting.UseCompatibleStateImageBehavior = false;
             this.lstMeeting.View = System.Windows.Forms.View.Details;
@@ -140,6 +142,15 @@
             this.lstReport.TabIndex = 0;
             this.lstReport.UseCompatibleStateImageBehavior = false;
             this.lstReport.View = System.Windows.Forms.View.Details;
+            // 
+            // lstMeetingDetail
+            // 
+            this.lstMeetingDetail.Location = new System.Drawing.Point(818, 38);
+            this.lstMeetingDetail.Name = "lstMeetingDetail";
+            this.lstMeetingDetail.Size = new System.Drawing.Size(544, 411);
+            this.lstMeetingDetail.TabIndex = 2;
+            this.lstMeetingDetail.UseCompatibleStateImageBehavior = false;
+            this.lstMeetingDetail.View = System.Windows.Forms.View.Details;
             // 
             // frmMain
             // 
@@ -174,5 +185,6 @@
         private System.Windows.Forms.TabPage tabReport;
         private System.Windows.Forms.ListView lstMeeting;
         private System.Windows.Forms.ListView lstReport;
+        private System.Windows.Forms.ListView lstMeetingDetail;
     }
 }

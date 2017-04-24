@@ -94,7 +94,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
 
-            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString ("yyyy-MM-dd") + "','3','200','3','300')";
+            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString ("yyyy-MM-dd") + "','3','2','300','200')";
             
                 
             p.updateData2DB(sql);
@@ -102,14 +102,22 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
 
             p.updateData2DB(sql);
-            sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','20','2','50')";
+            sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','2','20','50')";
             p.updateData2DB(sql);
             //
             //loadMeetingReportStatus(lstMeetingReportStatus);
             setMeeringReport(lstMeetingReportStatus);
             setMeeting(lstMeeting);
             setReport(lstReport);
+            addTimeList(lstMeetingDetail);
+            
             loadMeetingReportStatus(lstMeetingReportStatus);
+
+
+
+            
+
+
 
         }
 
@@ -121,7 +129,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void setMeeringReport(ListView listview)
         {
-           
+
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
@@ -222,6 +230,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             // listview.Columns.Add("Report Optimize PCT", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
             //listview.Columns.Add("Report Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+            //
+           // addTimeList(lstMeeting);
+
+
+
+
         }
 
 
@@ -256,6 +270,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         //lt.SubItems.Add(_reportworkingtime.ToString());
                         lt.SubItems.Add(p.CalcPCT(_meetingworkingtime, _totalworkingtime));
                         //lt.SubItems.Add(p.CalcPCT(_reportworkingtime, _totalworkingtime));
+                        p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + _depcode);
+                        loadDepMeetingOrReportDetail(dep, lt, _totalworkingtime, _meetingworkingtime, 1, "meeting");
                     }
                     catch (Exception)
                     {
@@ -297,6 +313,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             listview.Columns.Add("Report Optimize PCT", 120, HorizontalAlignment.Center);
             //listview.Columns.Add("Meeting Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
             listview.Columns.Add("Report Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+            //
+            
         }
 
 
@@ -371,8 +389,20 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
 
-        private void loadMeetingReportHistoryData()
+
+
+        private void addTimeList(ListView listview)
         {
+            listview.MultiSelect = false;
+            listview.AutoArrange = true;
+            listview.GridLines = true;
+            for (DateTime dt = p.sysStart; dt < DateTime.Now; dt = dt.AddDays(1))
+            {
+                if (p.IsWorkDay(dt))
+                {
+                    listview.Columns.Add(dt.ToString("yyyy-MM-dd"), 80, HorizontalAlignment.Center);
+                }
+            }
         }
 
 
@@ -410,7 +440,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         catch (Exception)
                         {
 
-                            throw;
+                           // throw;
                         }
                         
                     }
@@ -425,16 +455,84 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                     lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
                 }
 
-
-                
-
-
-
             }
             
 
 
         }
+
+        private void loadDepMeetingOrReportDetail(p.DepartmentList dep, ListViewItem lt, decimal _totaltime, decimal _totalmeetingtime, decimal _totalreporttime, string meetingOrreport)
+        {
+            SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
+            conn.Open();
+            string sql = "SELECT COUNT(*) FROM " + dep.ToString();
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            object o = cmd.ExecuteScalar();
+            if ((Convert.ToInt64(o)) > 0)
+            {
+                sql = "SELECT * FROM " + dep.ToString() + " ORDER BY date DESC";
+                cmd = new SQLiteCommand(sql, conn);
+                SQLiteDataReader re = cmd.ExecuteReader();
+
+
+                if (re.HasRows)
+                {
+                    Int64 _dailymeetingtips = 0;
+                    Int64 _dailyreporttips = 0;
+                    decimal _dailymeetingtipssavetime = 0;
+                    decimal _dailyreporttipssavetime = 0;
+                    while (re.Read())
+                    {
+
+                        try
+                        {
+                            string date = re["date"].ToString();
+
+                            if (meetingOrreport.ToLower() == "meeting")
+                            {
+                                _dailymeetingtips = _dailymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
+                                _dailymeetingtipssavetime = _dailymeetingtipssavetime  + Convert.ToDecimal(re["dailymeetingtipssavetime"]);
+                                //listview.Items[date] .SubItems.Add(_dailymeetingtips.ToString());
+                                //listview.Items[date].SubItems.Add(re["dailymeetingtips"].ToString());
+
+                            }
+                            if (meetingOrreport.ToLower() == "report")
+                            {
+                                _dailyreporttips =  Convert.ToInt64(re["dailyreporttips"]);
+                                _dailyreporttipssavetime = Convert.ToDecimal(re["dailyreporttipssavetime"]);
+                            }
+
+                        }
+                        catch (Exception)
+                        {
+
+                            // throw;
+                        }
+
+                    }
+                    if (meetingOrreport.ToLower() == "meeting")
+                    {
+                        lt.SubItems.Add(_dailymeetingtips.ToString());
+                        lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
+                    }
+                    if (meetingOrreport.ToLower() == "report")
+                    {
+                        lt.SubItems.Add(_dailyreporttips.ToString());
+                        lt.SubItems.Add(_dailyreporttipssavetime.ToString());
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+                    }
+                   
+                    
+                }
+
+            }
+        }
+
+
+
 
 
     }

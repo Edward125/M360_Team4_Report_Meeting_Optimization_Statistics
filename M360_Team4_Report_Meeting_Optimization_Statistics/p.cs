@@ -17,6 +17,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         public static string myDepartment = string.Empty;
         public static string dbFile = appFolder + @"\Team4.sqlite";
         public static string dbConnectionString = "Data Source=" + @dbFile;
+        public static DateTime sysStart = new DateTime(2017, 04, 10);
 
 
         public static List<string> departmentlist = new List<string>();
@@ -419,9 +420,21 @@ dailyreporttipssavetime decimal(10,2) NULL
         }
 
 
-
-
-
+        /// <summary>
+        /// 判断是否为工作日
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static bool IsWorkDay(DateTime dt)
+        {
+            //先从日期表中，查找不是上班时间，如果不是直接返回 false ，如果是，直接返回 true。
+            //如果在日期表中，找不到，则查找定义的日历，依据日历定义的周末时间来定义是否为工作日。
+            //获取日历中不上班的标准周末时间,判断是不是上班时间
+            if (dt.DayOfWeek == DayOfWeek.Sunday || dt.DayOfWeek == DayOfWeek.Saturday)
+                return false;
+            else
+                return true;
+        }
 
 
     }
