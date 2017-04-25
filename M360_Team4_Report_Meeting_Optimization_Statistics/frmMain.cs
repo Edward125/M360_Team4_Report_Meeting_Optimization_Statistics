@@ -826,8 +826,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 }
                 else
                 {
-                    Form f = new frmMeetingReportDailyData();
-                    f.ShowDialog();
+                    frmMeetingReportDailyData f = new frmMeetingReportDailyData();
+                    if (f.ShowDialog(this) != DialogResult.OK) //close
+                    {
+                        //MessageBox.Show("OK");
+                        //refresh data
+                        loadMeetingReportStatus(lstMeetingReportStatus);
+                        tsslDepStatus.Text = "";
+                        loadMeetingStatus(lstMeeting);
+                        loadReportStatus(lstReport);
+                    }
                 }
             }
         }
@@ -851,8 +859,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 }
                 else
                 {
-                    Form f = new frmMeetingReportDailyData();
-                    f.ShowDialog();
+                    frmMeetingReportDailyData f = new frmMeetingReportDailyData();
+                    if (f.ShowDialog(this) != DialogResult.OK) //close
+                    {
+                        //MessageBox.Show("OK");
+                        //refresh data
+                        loadMeetingReportStatus(lstMeetingReportStatus);
+                        tsslDepStatus.Text = "";
+                        loadMeetingStatus(lstMeeting);
+                        loadReportStatus(lstReport);
+                    }
                 }
             }
            

@@ -44,12 +44,16 @@
             this.lblMeetingorReportWorkingTime = new System.Windows.Forms.Label();
             this.txtTotaWorkingTime = new System.Windows.Forms.TextBox();
             this.lblTotalWorkingTime = new System.Windows.Forms.Label();
+            this.tsslUpdateData = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.grbHistory.SuspendLayout();
             this.grbBaseline.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslUpdateData});
             this.statusStrip1.Location = new System.Drawing.Point(0, 163);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(728, 22);
@@ -89,6 +93,7 @@
             this.btnModifyHistory.TabIndex = 6;
             this.btnModifyHistory.Text = "Modify";
             this.btnModifyHistory.UseVisualStyleBackColor = true;
+            this.btnModifyHistory.Click += new System.EventHandler(this.btnModifyHistory_Click);
             // 
             // txtTIPsSaveTime
             // 
@@ -205,6 +210,12 @@
             this.lblTotalWorkingTime.TabIndex = 0;
             this.lblTotalWorkingTime.Text = "TotalWorkingTime:";
             // 
+            // tsslUpdateData
+            // 
+            this.tsslUpdateData.Name = "tsslUpdateData";
+            this.tsslUpdateData.Size = new System.Drawing.Size(82, 17);
+            this.tsslUpdateData.Text = "Update Data";
+            // 
             // frmMeetingReportDailyData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -220,6 +231,8 @@
             this.Name = "frmMeetingReportDailyData";
             this.Text = "frmMeetingReportDailyData";
             this.Load += new System.EventHandler(this.frmMeetingReportDailyData_Load);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.grbHistory.ResumeLayout(false);
             this.grbHistory.PerformLayout();
             this.grbBaseline.ResumeLayout(false);
@@ -247,5 +260,6 @@
         private System.Windows.Forms.Label lblMeetingOrReportTIPsSaveTime;
         private System.Windows.Forms.TextBox txtMeetingOrReportTIPs;
         private System.Windows.Forms.Label lblMeetingOrReportTIPs;
+        private System.Windows.Forms.ToolStripStatusLabel tsslUpdateData;
     }
 }
