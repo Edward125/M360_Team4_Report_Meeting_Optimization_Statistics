@@ -70,9 +70,9 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         private void frmMain_Load(object sender, EventArgs e)
         {
             this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + p.myDepartment + ")";
-            tsslAppName.Text = "Author:edward_song@yeah.net";
-            tsslStatus.Text ="| Current Deparment:" + p.myDepartment;
-            tsslDepStatus.Text = "| ";
+            tsslAppName.Text = "Author:edward_song@yeah.net | ";
+            tsslStatus.Text = "Current Deparment:" + p.myDepartment + " | ";
+            tsslDepStatus.Text = "";
 
 
             //窗体放大缩小
@@ -472,16 +472,19 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             if (e.TabPage == tabMeetingReport )
             {
                 loadMeetingReportStatus(lstMeetingReportStatus);
+                tsslDepStatus.Text = "";
             }
 
             if (e.TabPage == tabMeeting)
             {
                 loadMeetingStatus(lstMeeting);
+                tsslDepStatus.Text = "";
             }
 
             if (e.TabPage == tabReport)
             {
                 loadReportStatus(lstReport);
+                tsslDepStatus.Text = "";
             }
         }
 
@@ -751,7 +754,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             {
                 //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
                 
+
                 string depStr = lstMeeting.SelectedItems[0].SubItems[0].Text;
+
+                if (depStr.ToLower() == "total")
+                    return;
+
                 p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + depStr);
                 decimal _totaltime = 1;
                 decimal _meetingtime = 1;
@@ -777,6 +785,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
 
                 string depStr = lstReport.SelectedItems[0].SubItems[0].Text;
+                if (depStr.ToLower() == "total")
+                    return;
                 p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + depStr);
                 decimal _totaltime = 1;
                 decimal _reporttime = 1;
@@ -792,6 +802,60 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 loadDepMeetingOrReportDetailHistory(dep, lstReportDetail, "report", _totaltime, _reporttime);
 
             }
+        }
+
+        private void lstReportDetail_DoubleClick(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void lstReport_DoubleClick(object sender, EventArgs e)
+        {
+            p.titleModifyMeetingReportData = "Modify Report Related Data...(" + p.myDepartment + ")";
+            if (lstReport.SelectedItems.Count >= 1)
+            {
+                //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
+
+                string depStr = lstReport.SelectedItems[0].SubItems[0].Text;
+                if (depStr.ToLower() == "total")
+                    return;
+                if (depStr.ToUpper() != p.myDepartment.ToUpper())
+                {
+                    MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                else
+                {
+                    Form f = new frmMeetingReportDailyData();
+                    f.ShowDialog();
+                }
+            }
+        }
+
+        private void lstMeeting_DoubleClick(object sender, EventArgs e)
+        {
+            p.titleModifyMeetingReportData = "Modify Meeting Related Data...(" + p.myDepartment + ")";
+
+
+            if (lstMeeting.SelectedItems.Count >= 1)
+            {
+                //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
+
+                string depStr = lstMeeting.SelectedItems[0].SubItems[0].Text;
+                if (depStr.ToLower() == "total")
+                    return;
+                if (depStr.ToUpper() != p.myDepartment.ToUpper())
+                {
+                    MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                else
+                {
+                    Form f = new frmMeetingReportDailyData();
+                    f.ShowDialog();
+                }
+            }
+           
         }
 
 

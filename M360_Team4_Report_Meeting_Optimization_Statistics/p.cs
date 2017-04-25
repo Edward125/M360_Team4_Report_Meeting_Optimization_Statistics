@@ -19,6 +19,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         public static string dbConnectionString = "Data Source=" + @dbFile;
         public static DateTime sysStart = new DateTime(2017, 04, 10);
 
+        public static string titleModifyMeetingReportData = "Modify Data";
+
 
         public static List<string> departmentlist = new List<string>();
 

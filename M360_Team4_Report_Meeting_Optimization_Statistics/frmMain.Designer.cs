@@ -111,6 +111,7 @@
             this.lstMeeting.UseCompatibleStateImageBehavior = false;
             this.lstMeeting.View = System.Windows.Forms.View.Details;
             this.lstMeeting.SelectedIndexChanged += new System.EventHandler(this.lstMeeting_SelectedIndexChanged);
+            this.lstMeeting.DoubleClick += new System.EventHandler(this.lstMeeting_DoubleClick);
             // 
             // tabReport
             // 
@@ -133,6 +134,7 @@
             this.lstReport.UseCompatibleStateImageBehavior = false;
             this.lstReport.View = System.Windows.Forms.View.Details;
             this.lstReport.SelectedIndexChanged += new System.EventHandler(this.lstReport_SelectedIndexChanged);
+            this.lstReport.DoubleClick += new System.EventHandler(this.lstReport_DoubleClick);
             // 
             // statusStrip1
             // 
@@ -172,6 +174,7 @@
             this.lstReportDetail.TabIndex = 1;
             this.lstReportDetail.UseCompatibleStateImageBehavior = false;
             this.lstReportDetail.View = System.Windows.Forms.View.Details;
+            this.lstReportDetail.DoubleClick += new System.EventHandler(this.lstReportDetail_DoubleClick);
             // 
             // frmMain
             // 

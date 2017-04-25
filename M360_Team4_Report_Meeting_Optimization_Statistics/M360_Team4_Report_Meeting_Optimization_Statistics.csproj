@@ -50,6 +50,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMeetingReportDailyData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMeetingReportDailyData.Designer.cs">
+      <DependentUpon>frmMeetingReportDailyData.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmWelcom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMeetingReportDailyData.resx">
+      <DependentUpon>frmMeetingReportDailyData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmWelcom.resx">
       <DependentUpon>frmWelcom.cs</DependentUpon>
