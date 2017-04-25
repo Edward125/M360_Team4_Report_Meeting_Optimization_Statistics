@@ -277,9 +277,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                         //throw;
                     }
-
-
-
+                    
                 }
             }
             conn.Close();
@@ -350,6 +348,9 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         lt.SubItems.Add(_reportworkingtime.ToString());
                         //lt.SubItems.Add(p.CalcPCT(_meetingworkingtime, _totalworkingtime));
                         lt.SubItems.Add(p.CalcPCT(_reportworkingtime, _totalworkingtime));
+
+                        p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + _depcode);                       
+                        loadDepMeetingOrReportDetail(dep, lt, _totalworkingtime, 1, _reportworkingtime, "report");
                     }
                     catch (Exception)
                     {
@@ -541,8 +542,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                             }
                             if (meetingOrreport.ToLower() == "report")
                             {
-                                _dailyreporttips =  Convert.ToInt64(re["dailyreporttips"]);
-                                _dailyreporttipssavetime = Convert.ToDecimal(re["dailyreporttipssavetime"]);
+                                _dailyreporttips = _dailyreporttips + Convert.ToInt64(re["dailyreporttips"]);
+                                _dailyreporttipssavetime =_dailyreporttipssavetime + Convert.ToDecimal(re["dailyreporttipssavetime"]);
                             }
 
                         }
@@ -647,21 +648,36 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 }
                 catch (Exception)
                 {
-                    
                     //throw;
-                }
-               
-
-
+                }             
                 loadDepMeetingOrReportDetailHistory(dep, lstMeetingDetail, "meeting",_totaltime, _meetingtime);
 
             }
 
+        }
 
-          
+        private void lstReport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstReport.SelectedItems.Count >= 1)
+            {
+                //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
 
+                string depStr = lstReport.SelectedItems[0].SubItems[0].Text;
+                p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + depStr);
+                decimal _totaltime = 1;
+                decimal _reporttime = 1;
+                try
+                {
+                    _totaltime = Convert.ToDecimal(lstReport.SelectedItems[0].SubItems[1].Text);
+                    _reporttime = Convert.ToDecimal(lstReport.SelectedItems[0].SubItems[2].Text);
+                }
+                catch (Exception)
+                {
+                    //throw;
+                }
+                loadDepMeetingOrReportDetailHistory(dep, lstReportDetail, "report", _totaltime, _reporttime);
 
-         
+            }
         }
 
 

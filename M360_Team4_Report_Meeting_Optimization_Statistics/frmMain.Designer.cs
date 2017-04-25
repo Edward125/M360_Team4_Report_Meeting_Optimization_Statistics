@@ -132,6 +132,7 @@
             this.lstReport.TabIndex = 0;
             this.lstReport.UseCompatibleStateImageBehavior = false;
             this.lstReport.View = System.Windows.Forms.View.Details;
+            this.lstReport.SelectedIndexChanged += new System.EventHandler(this.lstReport_SelectedIndexChanged);
             // 
             // statusStrip1
             // 
