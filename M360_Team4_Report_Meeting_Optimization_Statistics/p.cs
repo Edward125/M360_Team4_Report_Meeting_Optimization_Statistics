@@ -5,6 +5,7 @@ using Edward;
 using System.Windows.Forms;
 using System.IO;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace M360_Team4_Report_Meeting_Optimization_Statistics
 {
@@ -492,6 +493,27 @@ dailyreporttipssavetime decimal(10,2) NULL
                 return true;
         }
 
+
+
+        /// <summary>
+        /// check the string if it is decimal
+        /// </summary>
+        /// <param name="str">string </param>
+        /// <returns>Hex,return true;not hex,return false</returns>
+        public static bool IsDecimal(string str)
+        {
+            return Regex.IsMatch(str, @"^[0-9,.]*$");
+        }
+
+        /// <summary>
+        /// check the string if it is int
+        /// </summary>
+        /// <param name="str">string </param>
+        /// <returns>Hex,return true;not hex,return false</returns>
+        public static bool IsInt(string str)
+        {
+            return Regex.IsMatch(str, @"^[0-9]*$");
+        }
 
     }
 }
