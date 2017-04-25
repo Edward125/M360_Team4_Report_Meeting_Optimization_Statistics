@@ -95,33 +95,27 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
 
-            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString ("yyyy-MM-dd") + "','3','2','300','200')";
             
-                
+#if DEBUG
+            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','3','2','300','200')";
             p.updateData2DB(sql);
-
             sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
 
             p.updateData2DB(sql);
             sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','2','20','50')";
             p.updateData2DB(sql);
+#endif
             //
             //loadMeetingReportStatus(lstMeetingReportStatus);
             setMeeringReport(lstMeetingReportStatus);
             setMeeting(lstMeeting);
             setReport(lstReport);
             addDetail(lstMeetingDetail);
+            addDetail(lstReportDetail);
             //
 
-            
             loadMeetingReportStatus(lstMeetingReportStatus);
-
-
-
             
-
-
-
         }
 
 
@@ -412,7 +406,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
             listview.FullRowSelect = true;
             listview.Columns.Add("Dep.Code", 50, HorizontalAlignment.Center);
-            listview.Columns.Add("Date", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("Date", 80, HorizontalAlignment.Center);
             listview.Columns.Add("TIPs", 40, HorizontalAlignment.Center);        
             listview.Columns.Add("TIPs Save Time", 100, HorizontalAlignment.Center);
             listview.Columns.Add("Optimize PCT", 100, HorizontalAlignment.Center);            

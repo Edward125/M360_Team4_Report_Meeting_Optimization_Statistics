@@ -177,175 +177,220 @@ reporttipssavetime decimal(10,2) NULL
 )";
             p.createTable(sql);
 
+            createAllDeptable();
 
-
-//            1KC900
-//1KCD00
-//KD0B00
-//KD1100
-//KD1200
-//KD1300
-//KD1500
-//KD1600
-//KD1700
-//KD1C00
-//KD1E00
-//KD1M00
-//KD1P00
-//KD1Q00
-
-
-
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_1kc900(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_1kcd00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd0b00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1100(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1200(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1300(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1500(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1600(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1700(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
+////            1KC900
+////1KCD00
+////KD0B00
+////KD1100
+////KD1200
+////KD1300
+////KD1500
+////KD1600
+////KD1700
+////KD1C00
+////KD1E00
+////KD1M00
+////KD1P00
+////KD1Q00
 
 
 
 
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1c00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
+//            sql = @"CREATE TABLE IF NOT EXISTS d_1kc900(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_1kcd00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd0b00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1100(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1200(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1300(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1500(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1600(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1700(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
 
 
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1e00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1m00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1p00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1s00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
-
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1t00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
 
 
-            sql = @"CREATE TABLE IF NOT EXISTS d_kd1w00(
-date date PRIMARY KEY,
-dailymeetingtips int(11),
-dailyreporttips int(11),
-dailymeetingtipssavetime decimal(10,2) NULL,
-dailyreporttipssavetime decimal(10,2) NULL
-)";
-            p.createTable(sql);
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1c00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1e00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1m00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1p00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1s00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1t00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
+
+
+//            sql = @"CREATE TABLE IF NOT EXISTS d_kd1w00(
+//date date PRIMARY KEY,
+//dailymeetingtips int(11),
+//dailyreporttips int(11),
+//dailymeetingtipssavetime decimal(10,2) NULL,
+//dailyreporttipssavetime decimal(10,2) NULL
+//)";
+//            p.createTable(sql);
         }
+
+
+
+        private static void createAllDeptable()
+        {
+            createDepTable(DepartmentList.d_1KC900);
+            createDepTable(DepartmentList.d_1KCD00);
+            createDepTable(DepartmentList.d_KD0B00);
+            createDepTable(DepartmentList.d_KD1100);
+            createDepTable(DepartmentList.d_KD1200);
+            createDepTable(DepartmentList.d_KD1300);
+            createDepTable(DepartmentList.d_KD1500);
+            createDepTable(DepartmentList.d_KD1600);
+            createDepTable(DepartmentList.d_KD1700);
+            createDepTable(DepartmentList.d_KD1C00);
+            createDepTable(DepartmentList.d_KD1E00);
+            createDepTable(DepartmentList.d_KD1M00);
+            createDepTable(DepartmentList.d_KD1P00);
+            createDepTable(DepartmentList.d_KD1Q00);
+            createDepTable(DepartmentList.d_KD1S00);
+            createDepTable(DepartmentList.d_KD1T00);
+            createDepTable(DepartmentList.d_KD1W00);
+            
+        }
+
+
+
+
+
+        /// <summary>
+        /// create deparmtent table
+        /// </summary>
+        /// <param name="dep">deppartment</param>
+        public static void createDepTable(DepartmentList dep)
+        {
+            string  sql = @"CREATE TABLE IF NOT EXISTS " + dep.ToString () +@"(
+date date PRIMARY KEY,
+dailymeetingtips int(11),
+dailyreporttips int(11),
+dailymeetingtipssavetime decimal(10,2) NULL,
+dailyreporttipssavetime decimal(10,2) NULL
+)";
+           p.createTable(sql);
+        }
+
 
 
         /// <summary>
