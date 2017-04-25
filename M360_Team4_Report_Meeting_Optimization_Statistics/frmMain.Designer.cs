@@ -35,12 +35,13 @@
             this.lstMeetingDetail = new System.Windows.Forms.ListView();
             this.lstMeeting = new System.Windows.Forms.ListView();
             this.tabReport = new System.Windows.Forms.TabPage();
+            this.lstReportDetail = new System.Windows.Forms.ListView();
             this.lstReport = new System.Windows.Forms.ListView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslAppName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslDepStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lstReportDetail = new System.Windows.Forms.ListView();
+            this.txtStatus = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMeetingReport.SuspendLayout();
             this.tabMeeting.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             // tabMeetingReport
             // 
+            this.tabMeetingReport.Controls.Add(this.txtStatus);
             this.tabMeetingReport.Controls.Add(this.lstMeetingReportStatus);
             this.tabMeetingReport.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMeetingReport.Location = new System.Drawing.Point(4, 22);
@@ -95,18 +97,18 @@
             // 
             // lstMeetingDetail
             // 
-            this.lstMeetingDetail.Location = new System.Drawing.Point(818, 38);
+            this.lstMeetingDetail.Location = new System.Drawing.Point(818, 3);
             this.lstMeetingDetail.Name = "lstMeetingDetail";
-            this.lstMeetingDetail.Size = new System.Drawing.Size(544, 411);
+            this.lstMeetingDetail.Size = new System.Drawing.Size(469, 446);
             this.lstMeetingDetail.TabIndex = 2;
             this.lstMeetingDetail.UseCompatibleStateImageBehavior = false;
             this.lstMeetingDetail.View = System.Windows.Forms.View.Details;
             // 
             // lstMeeting
             // 
-            this.lstMeeting.Location = new System.Drawing.Point(6, 38);
+            this.lstMeeting.Location = new System.Drawing.Point(6, 3);
             this.lstMeeting.Name = "lstMeeting";
-            this.lstMeeting.Size = new System.Drawing.Size(806, 411);
+            this.lstMeeting.Size = new System.Drawing.Size(806, 446);
             this.lstMeeting.TabIndex = 1;
             this.lstMeeting.UseCompatibleStateImageBehavior = false;
             this.lstMeeting.View = System.Windows.Forms.View.Details;
@@ -125,11 +127,21 @@
             this.tabReport.Text = "Report Status";
             this.tabReport.UseVisualStyleBackColor = true;
             // 
+            // lstReportDetail
+            // 
+            this.lstReportDetail.Location = new System.Drawing.Point(815, 3);
+            this.lstReportDetail.Name = "lstReportDetail";
+            this.lstReportDetail.Size = new System.Drawing.Size(472, 440);
+            this.lstReportDetail.TabIndex = 1;
+            this.lstReportDetail.UseCompatibleStateImageBehavior = false;
+            this.lstReportDetail.View = System.Windows.Forms.View.Details;
+            this.lstReportDetail.DoubleClick += new System.EventHandler(this.lstReportDetail_DoubleClick);
+            // 
             // lstReport
             // 
-            this.lstReport.Location = new System.Drawing.Point(3, 32);
+            this.lstReport.Location = new System.Drawing.Point(3, 3);
             this.lstReport.Name = "lstReport";
-            this.lstReport.Size = new System.Drawing.Size(806, 411);
+            this.lstReport.Size = new System.Drawing.Size(806, 440);
             this.lstReport.TabIndex = 0;
             this.lstReport.UseCompatibleStateImageBehavior = false;
             this.lstReport.View = System.Windows.Forms.View.Details;
@@ -166,15 +178,14 @@
             this.tsslDepStatus.Size = new System.Drawing.Size(86, 17);
             this.tsslDepStatus.Text = "tsslDepStatus";
             // 
-            // lstReportDetail
+            // txtStatus
             // 
-            this.lstReportDetail.Location = new System.Drawing.Point(815, 32);
-            this.lstReportDetail.Name = "lstReportDetail";
-            this.lstReportDetail.Size = new System.Drawing.Size(472, 411);
-            this.lstReportDetail.TabIndex = 1;
-            this.lstReportDetail.UseCompatibleStateImageBehavior = false;
-            this.lstReportDetail.View = System.Windows.Forms.View.Details;
-            this.lstReportDetail.DoubleClick += new System.EventHandler(this.lstReportDetail_DoubleClick);
+            this.txtStatus.BackColor = System.Drawing.Color.Black;
+            this.txtStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtStatus.Location = new System.Drawing.Point(6, 11);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(1275, 22);
+            this.txtStatus.TabIndex = 1;
             // 
             // frmMain
             // 
@@ -188,6 +199,7 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMeetingReport.ResumeLayout(false);
+            this.tabMeetingReport.PerformLayout();
             this.tabMeeting.ResumeLayout(false);
             this.tabReport.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -212,5 +224,6 @@
         private System.Windows.Forms.ListView lstMeetingDetail;
         private System.Windows.Forms.ToolStripStatusLabel tsslDepStatus;
         private System.Windows.Forms.ListView lstReportDetail;
+        private System.Windows.Forms.TextBox txtStatus;
     }
 }

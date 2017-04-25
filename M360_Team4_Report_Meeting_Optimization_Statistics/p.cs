@@ -384,7 +384,7 @@ reporttipssavetime decimal(10,2) NULL
         /// <param name="dep">deppartment</param>
         public static void createDepTable(DepartmentList dep)
         {
-            string  sql = @"CREATE TABLE IF NOT EXISTS " + dep.ToString () +@"(
+            string  sql = @"CREATE TABLE IF NOT EXISTS " + dep.ToString ().ToLower () +@"(
 date date PRIMARY KEY,
 dailymeetingtips int(11),
 dailyreporttips int(11),

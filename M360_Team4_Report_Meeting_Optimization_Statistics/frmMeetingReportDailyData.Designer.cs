@@ -36,7 +36,7 @@
             this.lblMeetingOrReportTIPsSaveTime = new System.Windows.Forms.Label();
             this.txtMeetingOrReportTIPs = new System.Windows.Forms.TextBox();
             this.lblMeetingOrReportTIPs = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpHistoryDate = new System.Windows.Forms.DateTimePicker();
             this.grbBaseline = new System.Windows.Forms.GroupBox();
             this.btnSaveData = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
@@ -68,7 +68,7 @@
             this.grbHistory.Controls.Add(this.lblMeetingOrReportTIPsSaveTime);
             this.grbHistory.Controls.Add(this.txtMeetingOrReportTIPs);
             this.grbHistory.Controls.Add(this.lblMeetingOrReportTIPs);
-            this.grbHistory.Controls.Add(this.dateTimePicker1);
+            this.grbHistory.Controls.Add(this.dtpHistoryDate);
             this.grbHistory.Location = new System.Drawing.Point(21, 92);
             this.grbHistory.Name = "grbHistory";
             this.grbHistory.Size = new System.Drawing.Size(687, 63);
@@ -84,6 +84,7 @@
             this.btnSaveHistoryData.TabIndex = 7;
             this.btnSaveHistoryData.Text = "Save";
             this.btnSaveHistoryData.UseVisualStyleBackColor = true;
+            this.btnSaveHistoryData.Click += new System.EventHandler(this.btnSaveHistoryData_Click);
             // 
             // btnModifyHistory
             // 
@@ -131,13 +132,14 @@
             this.lblMeetingOrReportTIPs.TabIndex = 6;
             this.lblMeetingOrReportTIPs.Text = "MeetingTIPs";
             // 
-            // dateTimePicker1
+            // dtpHistoryDate
             // 
-            this.dateTimePicker1.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
-            this.dateTimePicker1.Location = new System.Drawing.Point(16, 23);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(123, 22);
-            this.dateTimePicker1.TabIndex = 0;
+            this.dtpHistoryDate.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
+            this.dtpHistoryDate.Location = new System.Drawing.Point(16, 23);
+            this.dtpHistoryDate.Name = "dtpHistoryDate";
+            this.dtpHistoryDate.Size = new System.Drawing.Size(123, 22);
+            this.dtpHistoryDate.TabIndex = 0;
+            this.dtpHistoryDate.ValueChanged += new System.EventHandler(this.dtpHistoryDate_ValueChanged);
             // 
             // grbBaseline
             // 
@@ -246,7 +248,7 @@
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.GroupBox grbHistory;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpHistoryDate;
         private System.Windows.Forms.GroupBox grbBaseline;
         private System.Windows.Forms.Label lblTotalWorkingTime;
         private System.Windows.Forms.Button btnSaveData;

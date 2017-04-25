@@ -16,15 +16,22 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             InitializeComponent();
         }
 
-
+        //
         decimal _meetingtime = 0;
         decimal _reporttime = 0;
+        //
+        Int64 _dailymeetingtips = 0;
+        Int64 _dailyreporttips = 0;
+        decimal _dailymeetingtipssavetime = 0;
+        decimal _dailyreporttipssavetime = 0;
 
         private void frmMeetingReportDailyData_Load(object sender, EventArgs e)
         {
             this.Text = p.titleModifyMeetingReportData;
             InitUI(p.titleModifyMeetingReportData);
             loadBaseline();
+            p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + p.myDepartment);
+            loadDailyData(dtpHistoryDate.Value, dep);
 
         }
 
@@ -77,9 +84,18 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 while (re.Read()) 
                 {
 
-                    txtTotaWorkingTime.Text = re["totalworkingtime"].ToString();
-                    _meetingtime = Convert.ToDecimal(re["meetingworkingtime"]);
-                    _reporttime = Convert.ToDecimal(re["reportworkingtime"]);
+                    try
+                    {
+                        txtTotaWorkingTime.Text = re["totalworkingtime"].ToString();
+                        _meetingtime = Convert.ToDecimal(re["meetingworkingtime"]);
+                        _reporttime = Convert.ToDecimal(re["reportworkingtime"]);
+                    }
+                    catch (Exception)
+                    {
+                        
+                        //throw;
+                    }
+
                     if (p.titleModifyMeetingReportData.ToLower().Contains("meeting"))
                     {
                         try
@@ -114,6 +130,68 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
         #endregion
+
+
+
+        #region loadDailyData
+
+
+        private void loadDailyData(DateTime dt,p.DepartmentList dep)
+        {
+            string date = dt.ToString("yyyy-MM-dd");
+            string sql = "SELECT * FROM " + dep.ToString().ToLower() + " WHERE date = '" + date + "'";
+            SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
+            conn.Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            SQLiteDataReader re = cmd.ExecuteReader();
+            if (re.HasRows)
+            {
+
+                tsslUpdateData.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ",there is record in " + dep.ToString().Replace("d_", "") + " database...";
+                tsslUpdateData.ForeColor = Color.Blue;
+
+                while (re.Read())
+                {
+                    try
+                    {
+                        _dailymeetingtips = Convert.ToInt64(re["dailymeetingtips"]);
+                        _dailyreporttips = Convert.ToInt64(re["dailyreporttips"]);
+                        _dailymeetingtipssavetime = Convert.ToDecimal(re["dailymeetingtipssavetime"]);
+                        _dailyreporttipssavetime = Convert.ToDecimal(re["dailyreporttipssavetime"]);
+
+                        if (p.titleModifyMeetingReportData.ToLower().Contains("report"))
+                        {
+                            txtMeetingOrReportTIPs.Text = _dailyreporttips.ToString();
+                            txtTIPsSaveTime.Text = _dailyreporttipssavetime.ToString();
+
+                        }
+                        if (p.titleModifyMeetingReportData.ToLower().Contains("meeting"))
+                        {
+                            txtMeetingOrReportTIPs.Text = _dailymeetingtips.ToString();
+                            txtTIPsSaveTime.Text = _dailymeetingtipssavetime.ToString();
+
+                        }
+
+
+                    }
+                    catch (Exception)
+                    {
+                        
+                        //throw;
+                    }
+                }
+            }
+            else
+            {
+                tsslUpdateData.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ",there is no recode in " + dep.ToString().ToUpper().Replace("D_", "") + " database...";
+                tsslUpdateData.ForeColor = Color.Red;
+            }
+
+        }
+
+
+        #endregion
+
 
 
         private void txtTotaWorkingTime_TextChanged(object sender, EventArgs e)
@@ -226,7 +304,91 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void btnModifyHistory_Click(object sender, EventArgs e)
         {
+            //
+            if (dtpHistoryDate.Value < p.sysStart)
+            {
+                MessageBox.Show("u select date is " + dtpHistoryDate.Value.ToString("yyyy-MM-dd") + ", M360 team4 not started...", "Datetime error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                dtpHistoryDate.Focus();
+                return;
+            }
+            if (dtpHistoryDate.Value > DateTime.Now )
+            {
+                MessageBox.Show("u select date is " + dtpHistoryDate.Value.ToString("yyyy-MM-dd") + ",today is " + DateTime.Now.ToString ("yyyy-MM-dd") , "Datetime error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                dtpHistoryDate.Focus();
+                return;
+            }
+            //
+             DialogResult dr = MessageBox.Show("R u sure to modify " + p.myDepartment +  " " + dtpHistoryDate.Value.ToString ("yyyy-MM-dd")+ " detail data?", "Modify detail data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+             if (dr == DialogResult.Yes)
+             {
 
+                 this.dtpHistoryDate.Enabled = false;
+                 this.txtMeetingOrReportTIPs.ReadOnly = false;
+                 this.txtTIPsSaveTime.ReadOnly = false;
+                 this.btnModifyHistory.Enabled = false;
+                 this.btnSaveHistoryData.Enabled = true;
+             }
+
+
+        }
+
+        private void dtpHistoryDate_ValueChanged(object sender, EventArgs e)
+        {
+
+            txtMeetingOrReportTIPs.Text = string.Empty;
+            txtTIPsSaveTime.Text = string.Empty;
+            p.DepartmentList dep = (p.DepartmentList )Enum.Parse (typeof(p.DepartmentList ),"d_" + p.myDepartment);
+            loadDailyData (dtpHistoryDate.Value ,dep);
+        }
+
+        private void btnSaveHistoryData_Click(object sender, EventArgs e)
+        {
+            if (!p.IsInt(txtMeetingOrReportTIPs.Text.Trim()))
+            {
+                MessageBox.Show("what you input is not Number,pls check...", "Check Input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.txtMeetingOrReportTIPs.SelectAll();
+                this.txtMeetingOrReportTIPs.Focus();
+                return;
+            }
+            if (!p.IsDecimal(txtTIPsSaveTime.Text.Trim()))
+            {
+                MessageBox.Show("what you input is not Number or Dot,pls check...", "Check Input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.txtTIPsSaveTime.SelectAll();
+                this.txtTIPsSaveTime.Focus();
+                return;
+            }
+            //
+            string sql = string.Empty;
+            p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + p.myDepartment);
+            //
+            if (p.titleModifyMeetingReportData.ToLower().Contains("meeting"))
+                sql = "REPLACE INTO " + dep.ToString().ToLower() + " (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + dtpHistoryDate.Value.ToString("yyyy-MM-dd") + "','" + txtMeetingOrReportTIPs.Text.Trim() + "','" + _dailyreporttips.ToString() + "','" + txtTIPsSaveTime.Text.Trim() + "','" + _dailyreporttipssavetime.ToString() + "')";
+                    
+            if (p.titleModifyMeetingReportData.ToLower().Contains("report"))
+                sql = "REPLACE INTO " + dep.ToString().ToLower() + " (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + dtpHistoryDate.Value.ToString("yyyy-MM-dd") + "','" + _dailymeetingtips.ToString() + "','" + txtMeetingOrReportTIPs.Text.Trim() + "','" + _dailymeetingtipssavetime .ToString () + "','" + txtTIPsSaveTime.Text.Trim() + "')";
+
+            if (p.updateData2DB(sql))
+            {
+                tsslUpdateData.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ",update " + p.myDepartment +  " " + dtpHistoryDate.Value.ToString ("yyyy-MM-dd") +" detail data success...";
+                tsslUpdateData.ForeColor = Color.Blue;
+
+                this.dtpHistoryDate.Enabled = true;
+                this.txtMeetingOrReportTIPs.ReadOnly = true;
+                this.txtTIPsSaveTime.ReadOnly = true;
+                this.btnModifyHistory.Enabled = true;
+                this.btnSaveHistoryData.Enabled = false;
+
+                
+
+
+            }
+            else
+            {
+                tsslUpdateData.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ",update " + p.myDepartment + " " + dtpHistoryDate.Value.ToString("yyyy-MM-dd") + " detail data fail...";
+                tsslUpdateData.ForeColor = Color.Red;
+                return;
+            }
+            
         }
 
        
