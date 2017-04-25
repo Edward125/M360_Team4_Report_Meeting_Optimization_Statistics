@@ -100,7 +100,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','3','2','300','200')";
             p.updateData2DB(sql);
             sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
-
+            p.updateData2DB(sql);
+            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','30000','1000','2500')";
             p.updateData2DB(sql);
             sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','2','20','50')";
             p.updateData2DB(sql);
@@ -159,9 +160,25 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             SQLiteDataReader re = cmd.ExecuteReader();
             if (re.HasRows)
             {
+                ListViewItem lt = new ListViewItem();
+                decimal _T_totalworkingtime = 0;
+                decimal _T_meetingworkingtime = 0;
+                decimal _T_reportworkingtime = 0;
+                Int64 _T_meetingtips = 0;
+                Int64 _T_reporttips = 0;
+                decimal _T_meetingtipssavetime = 0;
+                decimal _T_reporttipssavetime = 0;
                 while (re.Read()) 
                 {
-                    ListViewItem lt = new ListViewItem ();
+
+
+                    Int64 _meetingtips = 0;
+                    Int64 _reporttips = 0;
+                    decimal _meetingtipssavetime = 0;
+                    decimal _reporttipssavetime = 0;
+
+
+
                     string _depcode = re["depcode"].ToString();
                     if (string.IsNullOrEmpty(_depcode))
                         lt = listview.Items.Add(_depcode.Replace("d_", "").ToUpper());
@@ -171,18 +188,23 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                     try
                     {
                         decimal _totalworkingtime = Convert.ToDecimal(re["totalworkingtime"]);
+                        _T_totalworkingtime = _T_totalworkingtime + _totalworkingtime;
                         lt.SubItems.Add(_totalworkingtime.ToString());
                         decimal _meetingworkingtime = Convert.ToDecimal(re["meetingworkingtime"]);
+                        _T_meetingworkingtime = _T_meetingworkingtime + _meetingworkingtime;
                         lt.SubItems.Add(_meetingworkingtime.ToString());
                         decimal _reportworkingtime = Convert.ToDecimal(re["reportworkingtime"]);
+                        _T_reportworkingtime = _T_reportworkingtime + _reportworkingtime;
                         lt.SubItems.Add(_reportworkingtime.ToString());
                         lt.SubItems.Add(p.CalcPCT(_meetingworkingtime, _totalworkingtime));
-                        lt.SubItems.Add(p.CalcPCT(_reportworkingtime, _totalworkingtime));
-
+                        lt.SubItems.Add(p.CalcPCT(_reportworkingtime, _totalworkingtime));                       
                         p.DepartmentList dep = (p.DepartmentList )Enum.Parse (typeof (p.DepartmentList ),"d_" + _depcode );
-                        loadDepMeetingReportHistory(dep, lt, _totalworkingtime, _meetingworkingtime, _reportworkingtime);
+                        loadDepMeetingReportHistory(dep, lt, _totalworkingtime, _meetingworkingtime, _reportworkingtime, out _meetingtips,out  _reporttips, out _meetingtipssavetime,out  _reporttipssavetime);
 
-
+                        _T_meetingtips = _T_meetingtips + _meetingtips;
+                        _T_reporttips = _T_reporttips + _reporttips;
+                        _T_meetingtipssavetime = _T_meetingtipssavetime + _meetingtipssavetime;
+                        _T_reporttipssavetime = _T_reporttipssavetime + _reporttipssavetime;
                     }
                     catch (Exception)
                     {
@@ -190,11 +212,34 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         //throw;
                     }
 
-
-                    
                 }
+
+                lt = listview.Items.Add("Total");
+                lt.SubItems.Add(_T_totalworkingtime.ToString());
+                lt.SubItems.Add(_T_meetingworkingtime.ToString());
+                lt.SubItems.Add(_T_reportworkingtime.ToString());
+                lt.SubItems.Add(p.CalcPCT(_T_meetingworkingtime, _T_totalworkingtime));
+                lt.SubItems.Add(p.CalcPCT(_T_reportworkingtime, _T_totalworkingtime));
+                lt.SubItems.Add(_T_meetingtips.ToString());
+                lt.SubItems.Add(_T_reporttips.ToString());
+                lt.SubItems.Add(_T_meetingtipssavetime.ToString ());
+                lt.SubItems.Add(_T_reporttipssavetime.ToString ());
+                lt.SubItems.Add(p.CalcPCT(_T_meetingtipssavetime, _T_meetingworkingtime));
+                lt.SubItems.Add(p.CalcPCT(_T_reporttipssavetime, _T_reportworkingtime));
+                lt.SubItems.Add(p.CalcPCT(_T_meetingtipssavetime, _T_totalworkingtime));
+                lt.SubItems.Add(p.CalcPCT(_T_reporttipssavetime, _T_totalworkingtime));
+                
+                
+
+
+               // MessageBox.Show(listview.Items["KD1200"].SubItems["Meeting Time"].Text);
+
+        
+               
             }
 
+
+            
             conn.Close();
             listview.EndUpdate();//结束数据处理，UI界面一次性绘制。 
         }
@@ -357,9 +402,6 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                         //throw;
                     }
-
-
-
                 }
             }
 
@@ -450,13 +492,18 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
 
-        private void loadDepMeetingReportHistory(p.DepartmentList dep,ListViewItem lt,decimal _totaltime,decimal _totalmeetingtime,decimal _totalreporttime)
+        private void loadDepMeetingReportHistory(p.DepartmentList dep,ListViewItem lt,decimal _totaltime,decimal _totalmeetingtime,decimal _totalreporttime ,out Int64 meetingtips,out Int64 reporttips,out decimal meetingtipssavetime,out decimal reporttipssavetime)
         {
             SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
             conn.Open();
             string sql = "SELECT COUNT(*) FROM " + dep.ToString();
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             object o = cmd.ExecuteScalar();
+            Int64 _dailymeetingtips = 0;
+            Int64 _dailyreporttips = 0;
+            decimal _dailymeetingtipssavetime = 0;
+            decimal _dailyreporttipssavetime = 0;
+
             if ( (Convert.ToInt64(o)) > 0)
             {
                 sql = "SELECT * FROM " + dep.ToString();
@@ -466,10 +513,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                 if (re.HasRows)
                 {
-                    Int64 _dailymeetingtips = 0;
-                    Int64 _dailyreporttips = 0;
-                    decimal _dailymeetingtipssavetime = 0;
-                    decimal _dailyreporttipssavetime = 0;
+                    
                     while (re.Read())
                     {
                        
@@ -497,11 +541,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                     lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
                     lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
                     lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+
+                    
                 }
 
             }
-            
 
+            meetingtips = _dailymeetingtips;
+            reporttips = _dailyreporttips;
+            meetingtipssavetime = _dailymeetingtipssavetime;
+            reporttipssavetime = _dailyreporttipssavetime;
 
         }
 

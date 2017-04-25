@@ -459,8 +459,17 @@ dailyreporttipssavetime decimal(10,2) NULL
         /// <returns></returns>
         public static string CalcPCT(decimal member, decimal denominator)
         {
+            try
+            {
+                return string.Format("{0:0.00%}", member / denominator);
+            }
+            catch (Exception)
+            {
 
-            return string.Format("{0:0.00%}", member / denominator);
+                return "0.00%";
+            }
+
+            
 
         }
 
