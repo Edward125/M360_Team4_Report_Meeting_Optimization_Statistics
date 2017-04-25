@@ -71,7 +71,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         {
             this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + p.myDepartment + ")";
             tsslAppName.Text = "Author:edward_song@yeah.net";
-            tsslStatus.Text ="Current Deparment:" + p.myDepartment;
+            tsslStatus.Text ="| Current Deparment:" + p.myDepartment;
+            tsslDepStatus.Text = "| ";
 
 
             //窗体放大缩小
@@ -109,7 +110,9 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             setMeeringReport(lstMeetingReportStatus);
             setMeeting(lstMeeting);
             setReport(lstReport);
-            addTimeList(lstMeetingDetail);
+            addDetail(lstMeetingDetail);
+            //
+
             
             loadMeetingReportStatus(lstMeetingReportStatus);
 
@@ -133,6 +136,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
+            listview.FullRowSelect = true;
             listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
             listview.Columns.Add("Total Time", 80, HorizontalAlignment.Center);
             listview.Columns.Add("Meeting Time", 80, HorizontalAlignment.Center);
@@ -213,6 +217,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         {
             listview.Items.Clear();
             listview.MultiSelect = false;
+            listview.FullRowSelect = true;
             //listview.BeginUpdate();//数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度 
             listview.AutoArrange = true;
             listview.GridLines = true;
@@ -299,6 +304,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
+            listview.FullRowSelect = true;
             listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
             listview.Columns.Add("Total Time", 80, HorizontalAlignment.Center);
             //listview.Columns.Add("Meeting Time", 80, HorizontalAlignment.Center);
@@ -391,17 +397,60 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
 
 
-        private void addTimeList(ListView listview)
+        private void addDetail(ListView listview)
         {
             listview.MultiSelect = false;
             listview.AutoArrange = true;
             listview.GridLines = true;
-            for (DateTime dt = p.sysStart; dt < DateTime.Now; dt = dt.AddDays(1))
+            //for (DateTime dt = p.sysStart; dt < DateTime.Now; dt = dt.AddDays(1))
+            //{
+            //    if (p.IsWorkDay(dt))
+            //    {
+            //        listview.Columns.Add(dt.ToString("yyyy-MM-dd"), 80, HorizontalAlignment.Center);
+            //    }
+            //}
+
+            listview.FullRowSelect = true;
+            listview.Columns.Add("Dep.Code", 50, HorizontalAlignment.Center);
+            listview.Columns.Add("Date", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("TIPs", 40, HorizontalAlignment.Center);        
+            listview.Columns.Add("TIPs Save Time", 100, HorizontalAlignment.Center);
+            listview.Columns.Add("Optimize PCT", 100, HorizontalAlignment.Center);            
+            listview.Columns.Add("Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+
+        }
+
+        private void addDetail(ListView listview,string meetingorreport)
+        {
+            listview.MultiSelect = false;
+            listview.AutoArrange = true;
+            listview.GridLines = true;
+            //for (DateTime dt = p.sysStart; dt < DateTime.Now; dt = dt.AddDays(1))
+            //{
+            //    if (p.IsWorkDay(dt))
+            //    {
+            //        listview.Columns.Add(dt.ToString("yyyy-MM-dd"), 80, HorizontalAlignment.Center);
+            //    }
+            //}
+
+            listview.FullRowSelect = true;
+            listview.Columns.Add("Dep.Code", 60, HorizontalAlignment.Center);
+            listview.Columns.Add("Date", 80, HorizontalAlignment.Center);
+
+            if (meetingorreport.ToLower() == "meeting")
             {
-                if (p.IsWorkDay(dt))
-                {
-                    listview.Columns.Add(dt.ToString("yyyy-MM-dd"), 80, HorizontalAlignment.Center);
-                }
+                listview.Columns.Add("Meeting TIPs", 80, HorizontalAlignment.Center);
+                listview.Columns.Add("Meeting TIPs Save Time", 120, HorizontalAlignment.Center);
+                listview.Columns.Add("Meeting Optimize PCT", 120, HorizontalAlignment.Center);
+                listview.Columns.Add("Meeting Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
+            }
+
+            if (meetingorreport.ToLower() == "report")
+            {
+                listview.Columns.Add("Report TIPs", 80, HorizontalAlignment.Center);
+                listview.Columns.Add("Report TIPs Save Time", 120, HorizontalAlignment.Center);
+                listview.Columns.Add("Report Optimize PCT", 120, HorizontalAlignment.Center);
+                listview.Columns.Add("Report Optimize PCT(Total Working)", 120, HorizontalAlignment.Center);
             }
         }
 
@@ -532,6 +581,94 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
 
+        private void loadDepMeetingOrReportDetailHistory(p.DepartmentList dep,ListView listview,string meetingorreport,decimal _totaltime =1,decimal _totalmeetingorreporttime =1)
+        {
+            listview.Items.Clear();
+            listview.BeginUpdate();
+            SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
+            conn.Open();
+            string sql = "SELECT COUNT(*) FROM " + dep.ToString();
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            object o = cmd.ExecuteScalar();
+            if ((Convert.ToInt64(o)) > 0)
+            {
+                tsslDepStatus.Text = dep.ToString().Replace("d_", "") + " is " + o.ToString () + " record(s) in the database...";
+                tsslDepStatus.ForeColor = Color.Blue;
+                sql = "SELECT * FROM " + dep.ToString() + " ORDER BY date DESC";
+                cmd = new SQLiteCommand(sql, conn);
+                SQLiteDataReader re = cmd.ExecuteReader();
+                if (re.HasRows)
+                {
+                    decimal _dailytipssavetime = 0;
+                    ListViewItem lt = new ListViewItem();
+                      while (re.Read())
+                    {
+                        
+                        lt = listview.Items . Add(dep.ToString().Replace("d_", ""));
+                        lt.SubItems.Add(Convert.ToDateTime(re["date"].ToString()).ToString("yyy-MM-dd"));
+                        if (meetingorreport.ToLower() == "meeting")
+                        {
+                            lt.SubItems.Add(re["dailymeetingtips"].ToString());
+                            lt.SubItems .Add (re["dailymeetingtipssavetime"].ToString ());
+                            _dailytipssavetime =  Convert.ToDecimal(re["dailymeetingtipssavetime"]);
+                        }
+                        if (meetingorreport.ToLower() == "report")
+                        {
+                            lt.SubItems.Add(re["dailyreporttips"].ToString());
+                            lt.SubItems.Add(re["dailyreporttipssavetime"].ToString());
+                            _dailytipssavetime =  Convert.ToDecimal(re["dailyreporttipssavetime"]);
+                            
+                        }
+                        lt.SubItems.Add(p.CalcPCT(_dailytipssavetime, _totalmeetingorreporttime));
+                        lt.SubItems .Add (p.CalcPCT (_dailytipssavetime ,_totaltime ));
+                    }
+                }
+            }
+            else
+            {
+                tsslDepStatus.Text = dep.ToString ().Replace ("d_","") + " is not any record in the database...";
+                tsslDepStatus.ForeColor = Color.Red;
+
+            }
+            conn.Close();
+            listview.EndUpdate();
+
+        }
+
+        private void lstMeeting_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (lstMeeting.SelectedItems.Count >=1 )
+            {
+                //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
+                
+                string depStr = lstMeeting.SelectedItems[0].SubItems[0].Text;
+                p.DepartmentList dep = (p.DepartmentList)Enum.Parse(typeof(p.DepartmentList), "d_" + depStr);
+                decimal _totaltime = 1;
+                decimal _meetingtime = 1;
+                try
+                {
+                  _totaltime =  Convert.ToDecimal(lstMeeting.SelectedItems[0].SubItems[1].Text);
+                    _meetingtime =  Convert.ToDecimal(lstMeeting.SelectedItems[0].SubItems[2].Text);
+                }
+                catch (Exception)
+                {
+                    
+                    //throw;
+                }
+               
+
+
+                loadDepMeetingOrReportDetailHistory(dep, lstMeetingDetail, "meeting",_totaltime, _meetingtime);
+
+            }
+
+
+          
+
+
+         
+        }
 
 
 
