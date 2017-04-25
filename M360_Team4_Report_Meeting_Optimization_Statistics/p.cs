@@ -71,6 +71,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             if (!Directory.Exists(appFolder))
             {
                 Directory.CreateDirectory(appFolder);
+                File.SetAttributes(appFolder, FileAttributes.Hidden);
+                
             }
 
         }
@@ -82,6 +84,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         public static void createIniFile(string inifilepath)
         {
             IniFile.CreateIniFile(inifilepath);
+            File.SetAttributes(inifilepath , FileAttributes.Hidden);
             IniFile.IniWriteValue(IniSection.SysConfig.ToString(), "MyDepartment", myDepartment, inifilepath);
 
         }

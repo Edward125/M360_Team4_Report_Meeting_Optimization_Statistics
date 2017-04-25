@@ -31,7 +31,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         private void comboDep_SelectedIndexChanged(object sender, EventArgs e)
         {
             p.myDepartment = this.comboDep.SelectedItem.ToString();
-            IniFile.IniWriteValue(p.IniSection.SysConfig.ToString(), "MyDepartment", p.myDepartment, p.iniFilePath);
+            IniFile.IniWriteValue(p.IniSection.SysConfig.ToString(), "MyDepartment", DES.DesEncrypt ( p.myDepartment,"Edward86"), p.iniFilePath);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

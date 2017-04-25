@@ -64,7 +64,18 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         }
 
         #endregion
-        
+
+
+
+        #region 参数
+
+        long todaymeetingtips = 0;
+        long todayreporttips = 0;
+        string haveTIPsDep = string.Empty;
+        string havenoTIPsDep = string.Empty;
+
+        #endregion
+
 
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -150,6 +161,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void loadMeetingReportStatus(ListView listview)
         {
+
+            txtStatus.Text = string.Empty;
+            todaymeetingtips = 0;
+            todayreporttips = 0;
+            havenoTIPsDep = "";
+            haveTIPsDep = "";
+            //long todaytips = 0;
+            
+
+
             listview.Items.Clear();
             listview.BeginUpdate();//数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度 
             //
@@ -228,8 +249,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 lt.SubItems.Add(p.CalcPCT(_T_reporttipssavetime, _T_reportworkingtime));
                 lt.SubItems.Add(p.CalcPCT(_T_meetingtipssavetime, _T_totalworkingtime));
                 lt.SubItems.Add(p.CalcPCT(_T_reporttipssavetime, _T_totalworkingtime));
-                
-                
+
+                txtStatus.Text = "Today:" + DateTime.Now.ToString("yyyy-MM-dd") + ",New Meeting TIPs:" + todaymeetingtips + ",New Report Tips:" + todayreporttips + ",Have TIPs Dep.:" + haveTIPsDep;
 
 
                // MessageBox.Show(listview.Items["KD1200"].SubItems["Meeting Time"].Text);
@@ -551,6 +572,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void loadDepMeetingReportHistory(p.DepartmentList dep,ListViewItem lt,decimal _totaltime,decimal _totalmeetingtime,decimal _totalreporttime ,out Int64 meetingtips,out Int64 reporttips,out decimal meetingtipssavetime,out decimal reporttipssavetime)
         {
+            bool _todaytips = false;
             SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
             conn.Open();
             string sql = "SELECT COUNT(*) FROM " + dep.ToString();
@@ -576,6 +598,15 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                        
                         try
                         {
+  
+                            if ((Convert.ToDateTime (re["date"].ToString()).ToString ("yyyy-MM-dd")) == DateTime.Now.ToString("yyyy-MM-dd"))
+                            {
+                                todaymeetingtips = todaymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
+                                todayreporttips = todayreporttips + Convert.ToInt64(re["dailyreporttips"]);
+                                haveTIPsDep = haveTIPsDep + "," + dep.ToString().Replace("d_", "");
+                                _todaytips = true;
+                            }
+    
                             _dailymeetingtips = _dailymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
                             _dailyreporttips = _dailyreporttips + Convert.ToInt64(re["dailyreporttips"]);
                             _dailymeetingtipssavetime = _dailymeetingtipssavetime + Convert.ToDecimal(re["dailymeetingtipssavetime"]);
@@ -589,15 +620,32 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         }
                         
                     }
+                    if (_todaytips)
+                    {
+                        System.Drawing.Font font = new System.Drawing.Font("Calibri", 9, System.Drawing.FontStyle.Regular);
+                        lt.SubItems.Add(_dailymeetingtips.ToString(), Color.Yellow, Color.Blue , font);
+                        lt.SubItems.Add(_dailyreporttips.ToString());
+                        lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
+                        lt.SubItems.Add(_dailyreporttipssavetime.ToString());
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+                    }
+                    else
+                    {
+                         System.Drawing.Font font = new System.Drawing.Font("Calibri", 9, System.Drawing.FontStyle.Regular);
+                        lt.SubItems.Add(_dailymeetingtips.ToString(), Color.Yellow, Color.Blue , font);
+                        lt.SubItems.Add(_dailyreporttips.ToString());
+                        lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
+                        lt.SubItems.Add(_dailyreporttipssavetime.ToString());
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
+                        lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
+                        lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+                    }
 
-                    lt.SubItems.Add(_dailymeetingtips.ToString());
-                    lt.SubItems.Add(_dailyreporttips.ToString());
-                    lt.SubItems.Add(_dailymeetingtipssavetime.ToString());
-                    lt.SubItems.Add(_dailyreporttipssavetime.ToString());
-                    lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totalmeetingtime));
-                    lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totalreporttime));
-                    lt.SubItems.Add(p.CalcPCT(_dailymeetingtipssavetime, _totaltime));
-                    lt.SubItems.Add(p.CalcPCT(_dailyreporttipssavetime, _totaltime));
+                    
 
                     
                 }

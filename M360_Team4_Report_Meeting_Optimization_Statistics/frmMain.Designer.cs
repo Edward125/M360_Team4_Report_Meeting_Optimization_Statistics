@@ -181,11 +181,13 @@
             // txtStatus
             // 
             this.txtStatus.BackColor = System.Drawing.Color.Black;
+            this.txtStatus.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.txtStatus.Location = new System.Drawing.Point(6, 11);
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(1275, 22);
+            this.txtStatus.Size = new System.Drawing.Size(1275, 25);
             this.txtStatus.TabIndex = 1;
+            this.txtStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // frmMain
             // 
