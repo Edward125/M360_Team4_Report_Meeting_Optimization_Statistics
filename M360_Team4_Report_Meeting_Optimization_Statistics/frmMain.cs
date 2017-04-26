@@ -996,5 +996,10 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             return version;
         }
 
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
     }
 }
