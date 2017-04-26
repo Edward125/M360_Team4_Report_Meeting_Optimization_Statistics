@@ -704,15 +704,6 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
                         try
                         {
-
-
-                            if ((Convert.ToDateTime(re["date"].ToString()).ToString("yyyy-MM-dd")) == DateTime.Now.ToString("yyyy-MM-dd"))
-                            {                              
-                                _todaytips = true;
-                            }
-
-
-
                             string date = re["date"].ToString();
 
                             if (meetingOrreport.ToLower() == "meeting")
@@ -728,6 +719,13 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                                 _dailymeetingorreporttips = _dailymeetingorreporttips + Convert.ToInt64(re["dailyreporttips"]);
                                 _dailymeetingorreporttipssavetime = _dailymeetingorreporttipssavetime + Convert.ToDecimal(re["dailyreporttipssavetime"]);
                             }
+
+
+                             if (((Convert.ToDateTime(re["date"].ToString()).ToString("yyyy-MM-dd")) == DateTime.Now.ToString("yyyy-MM-dd")) && _dailymeetingorreporttips > 0)
+                            {                              
+                                _todaytips = true;
+                            }
+
 
                         }
                         catch (Exception)
