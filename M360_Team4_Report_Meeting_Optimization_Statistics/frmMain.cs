@@ -74,6 +74,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         long todayreporttips = 0;
         string haveTIPsDep = string.Empty;
         string havenoTIPsDep = string.Empty;
+        decimal todaymeetingsave = 0;
+        decimal todayreportsave = 0;
 
         #endregion
 
@@ -193,6 +195,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             todayreporttips = 0;
             havenoTIPsDep = "";
             haveTIPsDep = "";
+            todaymeetingsave = 0;
+            todayreportsave = 0;
             //long todaytips = 0;
             
 
@@ -278,7 +282,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 lt.ForeColor = Color.Blue;
                 p.SetListItemFont(lt, 9);
 
-                txtStatus.Text = "You Slect:" + dtpSetDate.Value.ToString ("yyyy-MM-dd") + ",New Meeting TIPs:" + todaymeetingtips + ",New Report Tips:" + todayreporttips + ",Have TIPs Dep.:" + haveTIPsDep;
+                txtStatus.Text = "You Slect:" + dtpSetDate.Value.ToString ("yyyy-MM-dd") + ",New Meeting TIPs:" + todaymeetingtips + ",Save time:" + todaymeetingsave +";New Report Tips:" + todayreporttips + ",Save time:" + todayreportsave +"; Have TIPs Dep.:" + haveTIPsDep;
 
 
                // MessageBox.Show(listview.Items["KD1200"].SubItems["Meeting Time"].Text);
@@ -634,6 +638,9 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                                 todaymeetingtips = todaymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
                                 todayreporttips = todayreporttips + Convert.ToInt64(re["dailyreporttips"]);
                                 haveTIPsDep = haveTIPsDep + "," + dep.ToString().Replace("d_", "");
+
+                                todaymeetingsave = todaymeetingsave + Convert.ToDecimal(re["dailymeetingtipssavetime"]);
+                                todayreportsave = todayreportsave + Convert.ToDecimal(re["dailyreporttipssavetime"]);
 
                                 if (todaymeetingtips > 0 || todayreporttips > 0)
                                     _todaytips = true;
