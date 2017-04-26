@@ -15,10 +15,16 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         #region 参数定义
 
         public static string appFolder = Application.StartupPath + @"\ReportMeetingStatistics";
+
+        public static string netFolder =@"\\10.62.22.5\PMO Compaign\M360\Team4\Meeting&Report TIPS";
         public static string iniFilePath = appFolder + @"\SysConfig.ini";
         public static string myDepartment = string.Empty;
         public static string dbFile = appFolder + @"\Team4.sqlite";
-        public static string dbConnectionString = "Data Source=" + @dbFile;
+        public static string netdbFile = @"Y:\M360\Team4\Meeting&Report TIPS\Team4.sqlite";
+
+        public static string _netfolder = @"10.62.22.5\PMO Compaign\M360\Team4\Meeting&Report TIPS\Team4.sqlite";
+
+        public static string dbConnectionString = "Data Source=" + @netdbFile;
         public static DateTime sysStart = new DateTime(2017, 04, 10);
 
         public static string titleModifyMeetingReportData = "Modify Data";
@@ -112,6 +118,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 try
                 {
                     SQLiteConnection.CreateFile(_dbfile);
+
+                    if (!p.createAllTable())
+                        Environment.Exit(0);
+                    p.writeDefaultData();
+
+
                     return true;
 
                 }
@@ -170,7 +182,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
         /// <summary>
         /// create all defaul tables
         /// </summary>
-        public static void createAllTable()
+        public static bool  createAllTable()
         {
             string sql = @"CREATE TABLE IF NOT EXISTS d_alldepstatus(
 depcode varchar(11) PRIMARY KEY NOT NULL,
@@ -182,11 +194,15 @@ reporttips int(11) ,
 meetingtipssavetime decimal(10,2) NULL,
 reporttipssavetime decimal(10,2) NULL
 )";
-            p.createTable(sql);
+            if (!p.createTable(sql))
+                return false;
 
-            createAllDeptable();
+            if (!createAllDeptable())
+                return false;
 
-            createTableSys();
+            if (!createTableSys())
+                return false;
+            return true;
 
 ////            1KC900
 ////1KCD00
@@ -358,25 +374,45 @@ reporttipssavetime decimal(10,2) NULL
 
 
 
-        private static void createAllDeptable()
+        private static bool  createAllDeptable()
         {
-            createDepTable(DepartmentList.d_1KC900);
-            createDepTable(DepartmentList.d_1KCD00);
-            createDepTable(DepartmentList.d_KD0B00);
-            createDepTable(DepartmentList.d_KD1100);
-            createDepTable(DepartmentList.d_KD1200);
-            createDepTable(DepartmentList.d_KD1300);
-            createDepTable(DepartmentList.d_KD1500);
-            createDepTable(DepartmentList.d_KD1600);
-            createDepTable(DepartmentList.d_KD1700);
-            createDepTable(DepartmentList.d_KD1C00);
-            createDepTable(DepartmentList.d_KD1E00);
-            createDepTable(DepartmentList.d_KD1M00);
-            createDepTable(DepartmentList.d_KD1P00);
-            createDepTable(DepartmentList.d_KD1Q00);
-            createDepTable(DepartmentList.d_KD1S00);
-            createDepTable(DepartmentList.d_KD1T00);
-            createDepTable(DepartmentList.d_KD1W00);
+            if (!createDepTable(DepartmentList.d_1KC900))
+                return false;
+            if (!createDepTable(DepartmentList.d_1KCD00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD0B00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1100))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1200))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1300))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1500))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1600))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1700))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1C00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1E00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1M00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1P00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1Q00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1S00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1T00))
+                return false;
+            if (!createDepTable(DepartmentList.d_KD1W00))
+                return false;
+            if (!createTableSys())
+                return false;
+            return true;
             
         }
 
@@ -388,7 +424,7 @@ reporttipssavetime decimal(10,2) NULL
         /// create deparmtent table
         /// </summary>
         /// <param name="dep">deppartment</param>
-        public static void createDepTable(DepartmentList dep)
+        public static bool  createDepTable(DepartmentList dep)
         {
             string  sql = @"CREATE TABLE IF NOT EXISTS " + dep.ToString ().ToLower () +@"(
 date date PRIMARY KEY,
@@ -397,7 +433,10 @@ dailyreporttips int(11),
 dailymeetingtipssavetime decimal(10,2) NULL,
 dailyreporttipssavetime decimal(10,2) NULL
 )";
-           p.createTable(sql);
+            if (p.createTable(sql))
+                return true;
+            else
+                return false;
         }
 
 
@@ -408,11 +447,15 @@ dailyreporttipssavetime decimal(10,2) NULL
         /// <summary>
         /// 
         /// </summary>
-        public static void createTableSys()
+        public static bool  createTableSys()
         {
             string sql = @"CREATE TABLE IF NOT EXISTS " + "sys" + @"(
-version  varchar(11) PRIMARY KEY NOT NULL)";
-            p.updateData2DB(sql);
+version  varchar(11) PRIMARY KEY NOT NULL,
+value varchar(11) NULL)";
+            if (p.updateData2DB(sql))
+                return true;
+            else
+                return false;
         }
 
 
@@ -466,6 +509,7 @@ version  varchar(11) PRIMARY KEY NOT NULL)";
             writeDepDefaultData(DepartmentList.d_KD1S00);
             writeDepDefaultData(DepartmentList.d_KD1T00);
             writeDepDefaultData(DepartmentList.d_KD1W00);
+            writeVersionDefault();
 
         }
 
@@ -476,6 +520,11 @@ version  varchar(11) PRIMARY KEY NOT NULL)";
         }
 
 
+        private static void writeVersionDefault()
+        {
+            string sql = "REPLACE INTO sys (version,value) VALUES ('version','" + Application.ProductVersion + "')";
+            updateData2DB(sql);
+        }
         
 
 

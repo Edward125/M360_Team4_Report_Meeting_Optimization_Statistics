@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabMeetingReport = new System.Windows.Forms.TabPage();
+            this.dtpSetDate = new System.Windows.Forms.DateTimePicker();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.lstMeetingReportStatus = new System.Windows.Forms.ListView();
             this.tabMeeting = new System.Windows.Forms.TabPage();
@@ -42,7 +44,6 @@
             this.tsslAppName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslDepStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dtpSetDate = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabMeetingReport.SuspendLayout();
             this.tabMeeting.SuspendLayout();
@@ -76,6 +77,14 @@
             this.tabMeetingReport.Text = "Meeting & Report Status";
             this.tabMeetingReport.UseVisualStyleBackColor = true;
             // 
+            // dtpSetDate
+            // 
+            this.dtpSetDate.Location = new System.Drawing.Point(1169, 13);
+            this.dtpSetDate.Name = "dtpSetDate";
+            this.dtpSetDate.Size = new System.Drawing.Size(112, 22);
+            this.dtpSetDate.TabIndex = 2;
+            this.dtpSetDate.ValueChanged += new System.EventHandler(this.dtpSetDate_ValueChanged);
+            // 
             // txtStatus
             // 
             this.txtStatus.BackColor = System.Drawing.Color.Black;
@@ -101,9 +110,9 @@
             this.tabMeeting.Controls.Add(this.lstMeetingDetail);
             this.tabMeeting.Controls.Add(this.lstMeeting);
             this.tabMeeting.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabMeeting.Location = new System.Drawing.Point(4, 22);
+            this.tabMeeting.Location = new System.Drawing.Point(4, 23);
             this.tabMeeting.Name = "tabMeeting";
-            this.tabMeeting.Size = new System.Drawing.Size(1290, 536);
+            this.tabMeeting.Size = new System.Drawing.Size(1290, 535);
             this.tabMeeting.TabIndex = 1;
             this.tabMeeting.Text = "Meeting Status";
             this.tabMeeting.UseVisualStyleBackColor = true;
@@ -133,9 +142,9 @@
             this.tabReport.Controls.Add(this.lstReportDetail);
             this.tabReport.Controls.Add(this.lstReport);
             this.tabReport.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabReport.Location = new System.Drawing.Point(4, 22);
+            this.tabReport.Location = new System.Drawing.Point(4, 23);
             this.tabReport.Name = "tabReport";
-            this.tabReport.Size = new System.Drawing.Size(1290, 536);
+            this.tabReport.Size = new System.Drawing.Size(1290, 535);
             this.tabReport.TabIndex = 2;
             this.tabReport.Text = "Report Status";
             this.tabReport.UseVisualStyleBackColor = true;
@@ -191,14 +200,6 @@
             this.tsslDepStatus.Size = new System.Drawing.Size(86, 17);
             this.tsslDepStatus.Text = "tsslDepStatus";
             // 
-            // dtpSetDate
-            // 
-            this.dtpSetDate.Location = new System.Drawing.Point(1169, 13);
-            this.dtpSetDate.Name = "dtpSetDate";
-            this.dtpSetDate.Size = new System.Drawing.Size(112, 22);
-            this.dtpSetDate.TabIndex = 2;
-            this.dtpSetDate.ValueChanged += new System.EventHandler(this.dtpSetDate_ValueChanged);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -207,6 +208,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "frmMain";
             this.Load += new System.EventHandler(this.frmMain_Load);

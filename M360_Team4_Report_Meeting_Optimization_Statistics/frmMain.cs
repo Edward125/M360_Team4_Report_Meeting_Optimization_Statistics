@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
 
+
 namespace M360_Team4_Report_Meeting_Optimization_Statistics
 {
     public partial class frmMain : Form
@@ -78,6 +79,9 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
 
 
+        private string NetFolder = @"\\10.62.22.5\PMO Compaign";
+
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + p.myDepartment + ")";
@@ -93,16 +97,19 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             setTag(this);
             Form1_Resize(new object(), new EventArgs());//x,y可在实例化时赋值,最后这句是新加的，在MDI时有用
 
+            //int i = ConnectNetShare.NetworkConnection.Connect(NetFolder, "Y", @"wkscn\D1203ABJ0", "Testplan123");
+            //if (i != 0)
+            //{
+            //    MessageBox.Show(i.ToString ());
+            //    Environment.Exit(0);
+            //}
           //
-            if (!p.checkDB(p.dbFile))
+            if (!p.checkDB(p.netdbFile))
             {
                 Application.Exit();
             }
-            else
-            {
-                p.createAllTable();
-                p.writeDefaultData();
-            }
+           
+            
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
 
@@ -116,20 +123,20 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             }
             if (Application.ProductVersion != version)
             {
-                MessageBox.Show("System verson is " + version + ",current application version is " + Application.ProductVersion + ",pls contact edward_song@wistron.com", "Version Not Macht", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("System verson is " + version + ",current application version is " + Application.ProductVersion + ",pls contact edward_song@wistron.com", "Version Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 Environment.Exit(0);
             }
 
-#if DEBUG
-            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','3','2','300','200')";
-            p.updateData2DB(sql);
-            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
-            p.updateData2DB(sql);
-            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','30000','1000','2500')";
-            p.updateData2DB(sql);
-            sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','2','20','50')";
-            p.updateData2DB(sql);
-#endif
+//#if DEBUG
+//            string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','3','2','300','200')";
+//            p.updateData2DB(sql);
+//            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('1KC900','20000','2000','3000')";
+//            p.updateData2DB(sql);
+//            sql = "REPLACE INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','30000','1000','2500')";
+//            p.updateData2DB(sql);
+//            sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('2017-04-23','1','2','20','50')";
+//            p.updateData2DB(sql);
+//#endif
             //
             //loadMeetingReportStatus(lstMeetingReportStatus);
             setMeeringReport(lstMeetingReportStatus);
@@ -975,14 +982,14 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             string version = string.Empty;
             SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
             conn.Open();
-            string sql = "SELECT * FROM sys";
+            string sql = "SELECT * FROM sys ";
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             SQLiteDataReader re = cmd.ExecuteReader();
             while (re.HasRows)
             {
                 while (re.Read())
                 {
-                    version =  re["version"].ToString();
+                    version =  re["value"].ToString();
                 }
             }
             conn.Close();

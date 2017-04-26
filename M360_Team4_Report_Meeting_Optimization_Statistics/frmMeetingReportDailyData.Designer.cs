@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMeetingReportDailyData));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslUpdateData = new System.Windows.Forms.ToolStripStatusLabel();
             this.grbHistory = new System.Windows.Forms.GroupBox();
             this.btnSaveHistoryData = new System.Windows.Forms.Button();
             this.btnModifyHistory = new System.Windows.Forms.Button();
@@ -44,7 +46,6 @@
             this.lblMeetingorReportWorkingTime = new System.Windows.Forms.Label();
             this.txtTotaWorkingTime = new System.Windows.Forms.TextBox();
             this.lblTotalWorkingTime = new System.Windows.Forms.Label();
-            this.tsslUpdateData = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.grbHistory.SuspendLayout();
             this.grbBaseline.SuspendLayout();
@@ -59,6 +60,12 @@
             this.statusStrip1.Size = new System.Drawing.Size(728, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsslUpdateData
+            // 
+            this.tsslUpdateData.Name = "tsslUpdateData";
+            this.tsslUpdateData.Size = new System.Drawing.Size(82, 17);
+            this.tsslUpdateData.Text = "Update Data";
             // 
             // grbHistory
             // 
@@ -212,12 +219,6 @@
             this.lblTotalWorkingTime.TabIndex = 0;
             this.lblTotalWorkingTime.Text = "TotalWorkingTime:";
             // 
-            // tsslUpdateData
-            // 
-            this.tsslUpdateData.Name = "tsslUpdateData";
-            this.tsslUpdateData.Size = new System.Drawing.Size(82, 17);
-            this.tsslUpdateData.Text = "Update Data";
-            // 
             // frmMeetingReportDailyData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -228,6 +229,7 @@
             this.Controls.Add(this.grbHistory);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMeetingReportDailyData";
