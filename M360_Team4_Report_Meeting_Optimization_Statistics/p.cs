@@ -14,6 +14,10 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
     {
         #region 参数定义
 
+
+        public static bool isAdmin = false;
+
+
         public static string appFolder = Application.StartupPath + @"\ReportMeetingStatistics";
 
         public static string netFolder =@"\\10.62.22.5\PMO Compaign\M360\Team4\Meeting&Report TIPS";

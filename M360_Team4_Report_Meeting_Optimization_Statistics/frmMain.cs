@@ -79,14 +79,20 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
 
 
-        private string NetFolder = @"\\10.62.22.5\PMO Compaign";
+       // private string NetFolder = @"\\10.62.22.5\PMO Compaign";
 
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + p.myDepartment + ")";
+            if (p.isAdmin )
+                this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + "Administrator" + ")";
+            else
+                this.Text = Application.ProductName + ",Ver.:" + Application.ProductVersion + "(" + p.myDepartment + ")";
             tsslAppName.Text = "Author:edward_song@yeah.net | ";
-            tsslStatus.Text = "Current Deparment:" + p.myDepartment + " | ";
+            if (p.isAdmin)
+                tsslStatus.Text = "Current Deparment:Administrator | ";
+            else
+                tsslStatus.Text = "Current Deparment:" + p.myDepartment + " | ";
             tsslDepStatus.Text = "";
 
 
@@ -909,7 +915,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void lstReport_DoubleClick(object sender, EventArgs e)
         {
-            p.titleModifyMeetingReportData = "Modify Report Related Data...(" + p.myDepartment + ")";
+
+            if (p.isAdmin )
+                p.titleModifyMeetingReportData = "Modify Report Related Data...(" + "Administrarot" + ")";
+            else
+                p.titleModifyMeetingReportData = "Modify Report Related Data...(" + p.myDepartment + ")";
+
             if (lstReport.SelectedItems.Count >= 1)
             {
                 //MessageBox.Show(lstMeeting.SelectedItems[0].SubItems.Count.ToString());
@@ -917,12 +928,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 string depStr = lstReport.SelectedItems[0].SubItems[0].Text;
                 if (depStr.ToLower() == "total")
                     return;
-                if (depStr.ToUpper() != p.myDepartment.ToUpper())
-                {
-                    MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-                else
+
+                if (p.isAdmin)
                 {
                     frmMeetingReportDailyData f = new frmMeetingReportDailyData();
                     if (f.ShowDialog(this) != DialogResult.OK) //close
@@ -935,13 +942,40 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         loadReportStatus(lstReport);
                     }
                 }
+                else
+                {
+                    if (depStr.ToUpper() != p.myDepartment.ToUpper())
+                    {
+                        MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                    else
+                    {
+                        frmMeetingReportDailyData f = new frmMeetingReportDailyData();
+                        if (f.ShowDialog(this) != DialogResult.OK) //close
+                        {
+                            //MessageBox.Show("OK");
+                            //refresh data
+                            loadMeetingReportStatus(lstMeetingReportStatus);
+                            tsslDepStatus.Text = "";
+                            loadMeetingStatus(lstMeeting);
+                            loadReportStatus(lstReport);
+                        }
+                    }
+                }
+               
+
+
+                
             }
         }
 
         private void lstMeeting_DoubleClick(object sender, EventArgs e)
         {
-            p.titleModifyMeetingReportData = "Modify Meeting Related Data...(" + p.myDepartment + ")";
-
+            if (p.isAdmin)
+                p.titleModifyMeetingReportData = "Modify Meeting Related Data...(" + "Administrarot" + ")";
+            else
+                p.titleModifyMeetingReportData = "Modify Meeting Related Data...(" + p.myDepartment + ")";
 
             if (lstMeeting.SelectedItems.Count >= 1)
             {
@@ -950,13 +984,12 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 string depStr = lstMeeting.SelectedItems[0].SubItems[0].Text;
                 if (depStr.ToLower() == "total")
                     return;
-                if (depStr.ToUpper() != p.myDepartment.ToUpper())
+
+
+                if (p.isAdmin)
                 {
-                    MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-                else
-                {
+                    p.myDepartment = depStr;
+
                     frmMeetingReportDailyData f = new frmMeetingReportDailyData();
                     if (f.ShowDialog(this) != DialogResult.OK) //close
                     {
@@ -968,6 +1001,32 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                         loadReportStatus(lstReport);
                     }
                 }
+                else
+                {
+                    if (depStr.ToUpper() != p.myDepartment.ToUpper())
+                    {
+                        MessageBox.Show("u'r not " + depStr + " member,u can only modify your dep.:" + p.myDepartment, "Dep. Not Match", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                    else
+                    {
+                        frmMeetingReportDailyData f = new frmMeetingReportDailyData();
+                        if (f.ShowDialog(this) != DialogResult.OK) //close
+                        {
+                            //MessageBox.Show("OK");
+                            //refresh data
+                            loadMeetingReportStatus(lstMeetingReportStatus);
+                            tsslDepStatus.Text = "";
+                            loadMeetingStatus(lstMeeting);
+                            loadReportStatus(lstReport);
+                        }
+                    }
+                }
+
+
+
+
+                
             }
            
         }

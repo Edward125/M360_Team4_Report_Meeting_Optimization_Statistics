@@ -34,14 +34,21 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnLogin = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.txtPwd = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboDep
@@ -87,9 +94,9 @@
             this.groupBox1.Controls.Add(this.btnOK);
             this.groupBox1.Controls.Add(this.comboDep);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(160, 36);
+            this.groupBox1.Location = new System.Drawing.Point(26, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(329, 119);
+            this.groupBox1.Size = new System.Drawing.Size(312, 119);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Department";
@@ -118,6 +125,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "请按照如下方法，映射网络盘符，否则运行可能失败";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Location = new System.Drawing.Point(297, 28);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(296, 14);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "2,驱动器选择Y,文件夾输入\\\\10.62.22.5\\PMO Compaign\\";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Blue;
+            this.label2.Location = new System.Drawing.Point(6, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(271, 14);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "1,在我的电脑上，点击鼠标右键,选择映射网络驱动";
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::M360_Team4_Report_Meeting_Optimization_Statistics.Properties.Resources._2;
@@ -136,31 +163,70 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // label2
+            // groupBox3
             // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(6, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(271, 14);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "1,在我的电脑上，点击鼠标右键,选择映射网络驱动";
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.txtPwd);
+            this.groupBox3.Controls.Add(this.txtID);
+            this.groupBox3.Controls.Add(this.btnLogin);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Location = new System.Drawing.Point(346, 36);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(329, 119);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Administrator Login";
             // 
-            // label3
+            // btnLogin
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Blue;
-            this.label3.Location = new System.Drawing.Point(297, 28);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(296, 14);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "2,驱动器选择Y,文件夾输入\\\\10.62.22.5\\PMO Compaign\\";
+            this.btnLogin.Location = new System.Drawing.Point(215, 52);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(99, 32);
+            this.btnLogin.TabIndex = 2;
+            this.btnLogin.Text = "Login";
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 36);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(22, 14);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "ID:";
+            // 
+            // txtID
+            // 
+            this.txtID.Location = new System.Drawing.Point(74, 36);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(135, 22);
+            this.txtID.TabIndex = 3;
+            // 
+            // txtPwd
+            // 
+            this.txtPwd.Location = new System.Drawing.Point(74, 77);
+            this.txtPwd.Name = "txtPwd";
+            this.txtPwd.PasswordChar = '*';
+            this.txtPwd.Size = new System.Drawing.Size(135, 22);
+            this.txtPwd.TabIndex = 4;
+            this.txtPwd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPwd_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 81);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 14);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Password:";
             // 
             // frmWelcom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 501);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -176,6 +242,8 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -191,6 +259,12 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtPwd;
+        private System.Windows.Forms.TextBox txtID;
     }
 }
 

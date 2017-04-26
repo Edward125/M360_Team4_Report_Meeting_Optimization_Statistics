@@ -51,5 +51,46 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
             }
         }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            if (txtID.Text == "Administrator" && txtPwd.Text == "administrator")
+            {
+
+                Form f = new frmMain();
+                p.isAdmin = true;
+                f.Show();
+                this.Hide();
+              
+            }
+            else
+            {
+                MessageBox.Show("Invalid ID or Passowrd...", "Admin Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtID.SelectAll();
+                txtID.Focus();
+            }
+        }
+
+        private void txtPwd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                if (txtID.Text == "Administrator" && txtPwd.Text == "administrator")
+                {
+
+                    Form f = new frmMain();
+                    p.isAdmin = true;
+                    f.Show();
+                    this.Hide();
+
+                }
+                else
+                {
+                    MessageBox.Show("Invalid ID or Passowrd...", "Admin Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtID.SelectAll();
+                    txtID.Focus();
+                }
+            }
+        }
     }
 }

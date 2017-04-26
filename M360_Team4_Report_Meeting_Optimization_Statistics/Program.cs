@@ -23,7 +23,11 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             }
             else //存在,查看設置的值
             {
-                string _mydepartment = DES.DesDecrypt(IniFile.IniReadValue(p.IniSection.SysConfig.ToString(), "MyDepartment", p.iniFilePath), "Edward86");
+                string _mydepartment = IniFile.IniReadValue(p.IniSection.SysConfig.ToString(), "MyDepartment", p.iniFilePath);
+                if (!string.IsNullOrEmpty(_mydepartment))
+                {
+                    _mydepartment = DES.DesDecrypt(_mydepartment, "Edward86");
+                }
                 p.myDepartment = _mydepartment;
 
                 if (string.IsNullOrEmpty(_mydepartment))
