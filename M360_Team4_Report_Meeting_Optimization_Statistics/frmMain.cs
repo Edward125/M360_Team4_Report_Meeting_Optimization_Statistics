@@ -972,6 +972,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private string  checkversion()
         {
+            string version = string.Empty;
             SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
             conn.Open();
             string sql = "SELECT * FROM sys";
@@ -981,10 +982,11 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             {
                 while (re.Read())
                 {
-                    return  re["version"].ToString();
+                    version =  re["version"].ToString();
                 }
             }
-            return string.Empty;
+            conn.Close();
+            return version;
         }
 
     }
