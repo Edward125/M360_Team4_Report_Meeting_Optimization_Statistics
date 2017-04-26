@@ -186,6 +186,8 @@ reporttipssavetime decimal(10,2) NULL
 
             createAllDeptable();
 
+            createTableSys();
+
 ////            1KC900
 ////1KCD00
 ////KD0B00
@@ -400,6 +402,21 @@ dailyreporttipssavetime decimal(10,2) NULL
 
 
 
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void createTableSys()
+        {
+            string sql = @"CREATE TABLE IF NOT EXISTS " + "sys" + @"(
+version  varchar(11) PRIMARY KEY NOT NULL)";
+            p.updateData2DB(sql);
+        }
+
+
+
         /// <summary>
         /// update data to sqlite
         /// </summary>
@@ -457,6 +474,11 @@ dailyreporttipssavetime decimal(10,2) NULL
             string sql = "REPLACE INTO d_alldepstatus (depcode) VALUES ('" + dep.ToString().Replace("d_", "") + "')";
             updateData2DB(sql);
         }
+
+
+        
+
+
 
         /// <summary>
         /// calc percentage 

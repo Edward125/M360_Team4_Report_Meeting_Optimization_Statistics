@@ -106,7 +106,20 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             //test
            // string sql = "INSERT INTO d_alldepstatus (depcode,totalworkingtime,meetingworkingtime,reportworkingtime) VALUES ('KD1200','20000','2000','3000')";
 
-            
+            //check verion
+
+            string version = checkversion ();
+            if (string.IsNullOrEmpty(version))
+            {
+                MessageBox.Show("System database version is null,pls contact edwar_song@wistron.com", "Version is null", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Environment.Exit(0);
+            }
+            if (Application.ProductVersion != version)
+            {
+                MessageBox.Show("System verson is " + version + ",current application version is " + Application.ProductVersion + ",pls contact edward_song@wistron.com", "Version Not Macht", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Environment.Exit(0);
+            }
+
 #if DEBUG
             string sql = "REPLACE INTO d_1kc900 (date,dailymeetingtips,dailyreporttips,dailymeetingtipssavetime,dailyreporttipssavetime) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "','3','2','300','200')";
             p.updateData2DB(sql);
@@ -957,7 +970,22 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
             loadMeetingReportStatus(lstMeetingReportStatus);
         }
 
-
+        private string  checkversion()
+        {
+            SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
+            conn.Open();
+            string sql = "SELECT * FROM sys";
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            SQLiteDataReader re = cmd.ExecuteReader();
+            while (re.HasRows)
+            {
+                while (re.Read())
+                {
+                    return  re["version"].ToString();
+                }
+            }
+            return string.Empty;
+        }
 
     }
 }

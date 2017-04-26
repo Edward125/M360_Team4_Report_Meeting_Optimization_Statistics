@@ -138,6 +138,13 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
 
         private void loadDailyData(DateTime dt,p.DepartmentList dep)
         {
+
+
+            _dailymeetingtips = 0;
+            _dailyreporttips = 0;
+            _dailymeetingtipssavetime = 0;
+            _dailyreporttipssavetime = 0;
+
             string date = dt.ToString("yyyy-MM-dd");
             string sql = "SELECT * FROM " + dep.ToString().ToLower() + " WHERE date = '" + date + "'";
             SQLiteConnection conn = new SQLiteConnection(p.dbConnectionString);
