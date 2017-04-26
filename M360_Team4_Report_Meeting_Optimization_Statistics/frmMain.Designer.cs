@@ -42,6 +42,7 @@
             this.tsslAppName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslDepStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dtpSetDate = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabMeetingReport.SuspendLayout();
             this.tabMeeting.SuspendLayout();
@@ -63,6 +64,7 @@
             // 
             // tabMeetingReport
             // 
+            this.tabMeetingReport.Controls.Add(this.dtpSetDate);
             this.tabMeetingReport.Controls.Add(this.txtStatus);
             this.tabMeetingReport.Controls.Add(this.lstMeetingReportStatus);
             this.tabMeetingReport.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -81,7 +83,7 @@
             this.txtStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.txtStatus.Location = new System.Drawing.Point(6, 13);
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(1275, 25);
+            this.txtStatus.Size = new System.Drawing.Size(1157, 25);
             this.txtStatus.TabIndex = 1;
             this.txtStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -189,6 +191,14 @@
             this.tsslDepStatus.Size = new System.Drawing.Size(86, 17);
             this.tsslDepStatus.Text = "tsslDepStatus";
             // 
+            // dtpSetDate
+            // 
+            this.dtpSetDate.Location = new System.Drawing.Point(1169, 13);
+            this.dtpSetDate.Name = "dtpSetDate";
+            this.dtpSetDate.Size = new System.Drawing.Size(112, 22);
+            this.dtpSetDate.TabIndex = 2;
+            this.dtpSetDate.ValueChanged += new System.EventHandler(this.dtpSetDate_ValueChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -228,5 +238,6 @@
         private System.Windows.Forms.ToolStripStatusLabel tsslDepStatus;
         private System.Windows.Forms.ListView lstReportDetail;
         private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.DateTimePicker dtpSetDate;
     }
 }

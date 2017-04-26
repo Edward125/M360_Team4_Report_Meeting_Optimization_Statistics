@@ -252,7 +252,7 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 lt.ForeColor = Color.Blue;
                 p.SetListItemFont(lt, 9);
 
-                txtStatus.Text = "Today:" + DateTime.Now.ToString("yyyy-MM-dd") + ",New Meeting TIPs:" + todaymeetingtips + ",New Report Tips:" + todayreporttips + ",Have TIPs Dep.:" + haveTIPsDep;
+                txtStatus.Text = "You Slect:" + dtpSetDate.Value.ToString ("yyyy-MM-dd") + ",New Meeting TIPs:" + todaymeetingtips + ",New Report Tips:" + todayreporttips + ",Have TIPs Dep.:" + haveTIPsDep;
 
 
                // MessageBox.Show(listview.Items["KD1200"].SubItems["Meeting Time"].Text);
@@ -602,8 +602,8 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                        
                         try
                         {
-  
-                            if ((Convert.ToDateTime (re["date"].ToString()).ToString ("yyyy-MM-dd")) == DateTime.Now.ToString("yyyy-MM-dd"))
+
+                            if ((Convert.ToDateTime(re["date"].ToString()).ToString("yyyy-MM-dd")) == dtpSetDate.Value.ToString("yyyy-MM-dd"))
                             {
                                 todaymeetingtips = todaymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
                                 todayreporttips = todayreporttips + Convert.ToInt64(re["dailyreporttips"]);
@@ -950,6 +950,11 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                 }
             }
            
+        }
+
+        private void dtpSetDate_ValueChanged(object sender, EventArgs e)
+        {
+            loadMeetingReportStatus(lstMeetingReportStatus);
         }
 
 
