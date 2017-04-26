@@ -634,7 +634,11 @@ namespace M360_Team4_Report_Meeting_Optimization_Statistics
                                 todaymeetingtips = todaymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
                                 todayreporttips = todayreporttips + Convert.ToInt64(re["dailyreporttips"]);
                                 haveTIPsDep = haveTIPsDep + "," + dep.ToString().Replace("d_", "");
-                                _todaytips = true;
+
+                                if (todaymeetingtips > 0 || todayreporttips > 0)
+                                    _todaytips = true;
+                                    
+
                             }
     
                             _dailymeetingtips = _dailymeetingtips + Convert.ToInt64(re["dailymeetingtips"]);
